@@ -658,20 +658,22 @@ static esp_err_t pid_handler(httpd_req_t *req){
 
     float val = atof(value);
     //sensor_t * s = esp_camera_sensor_get();
-    int res = 0;
+    // int res = 0;
 
     // pid
-    if(!strcmp(variable, "rollPVal")) PID_P_GAIN_ROLL = val;
-    else if(!strcmp(variable, "rollIVal")) PID_I_GAIN_ROLL = val;
-    else if(!strcmp(variable, "rollDVal")) PID_D_GAIN_ROLL = val;
-    else if(!strcmp(variable, "yawPVal")) PID_P_GAIN_YAW = val;
-    else if(!strcmp(variable, "yawIVal")) PID_I_GAIN_YAW = val;
-    else if(!strcmp(variable, "yawDVal")) PID_D_GAIN_YAW = val;
-    else if(!strcmp(variable, "altitudePVal")) PID_P_GAIN_ALTITUDE = val;
-    else if(!strcmp(variable, "altitudeIVal")) PID_I_GAIN_ALTITUDE = val;
-    else if(!strcmp(variable, "altitudeDVal")) PID_D_GAIN_ALTITUDE = val;
+    if(!strcmp(variable, "rollPInput")) PID_P_GAIN_ROLL = val;
+    else if(!strcmp(variable, "rollIInput")) PID_I_GAIN_ROLL = val;
+    else if(!strcmp(variable, "rollDInput")) PID_D_GAIN_ROLL = val;
+    else if(!strcmp(variable, "yawPInput")) PID_P_GAIN_YAW = val;
+    else if(!strcmp(variable, "yawIInput")) PID_I_GAIN_YAW = val;
+    else if(!strcmp(variable, "yawDInput")) PID_D_GAIN_YAW = val;
+    else if(!strcmp(variable, "altitudePInput")) PID_P_GAIN_ALTITUDE = val;
+    else if(!strcmp(variable, "altitudeIInput")) PID_I_GAIN_ALTITUDE = val;
+    else if(!strcmp(variable, "altitudeDInput")) PID_D_GAIN_ALTITUDE = val;
 
-    // return httpd_resp_send_500(req);
+    Serial.printf("/pid val %f", val);
+
+    return httpd_resp_send_500(req);
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
@@ -680,7 +682,6 @@ static esp_err_t pid_handler(httpd_req_t *req){
 static esp_err_t telemetry_handler(httpd_req_t *req){
     static char json_response[1024];
 
-    sensor_t * s = esp_camera_sensor_get();
     char * p = json_response;
     *p++ = '{';
 
@@ -780,7 +781,7 @@ void startCameraServer(){
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &pid_uri);
-        httpd_register_uri_handler(camera_httpd, &telemetry_uri);
+        // httpd_register_uri_handler(camera_httpd, &telemetry_uri);
     }
 
     config.server_port += 1;
