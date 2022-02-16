@@ -673,7 +673,7 @@ static esp_err_t pid_handler(httpd_req_t *req){
 
     Serial.printf("/pid val %f", val);
 
-    return httpd_resp_send_500(req);
+    // return httpd_resp_send_500(req);
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
