@@ -3,6 +3,7 @@
  * @author @sebastiano123-c
  * @brief wifi based telemtry system using your esp3-cam
  * @note board: AI thinker
+ * @todo include pid elements as status
  */
 #include <Arduino.h>
 #include "esp_camera.h"

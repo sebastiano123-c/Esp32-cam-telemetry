@@ -1,16 +1,6 @@
-// Copyright 2015-2016 Espressif Systems (Shanghai) PTE LTD
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/**
+ * @brief defines the routines for the communication between client (web app) and the server (esp32 cam)
+ * */
 #include "esp_http_server.h"
 #include "esp_timer.h"
 #include "esp_camera.h"
@@ -575,6 +565,18 @@ static esp_err_t status_handler(httpd_req_t *req){
     char * p = json_response;
     *p++ = '{';
 
+    // pid
+    p+=sprintf(p, "\"rollPInput\":%.6f,", PID_P_GAIN_ROLL);
+    p+=sprintf(p, "\"rollIInput\":%.6f,", PID_I_GAIN_ROLL);
+    p+=sprintf(p, "\"rollDInput\":%.6f,", PID_D_GAIN_ROLL);
+    p+=sprintf(p, "\"yawPInput\":%.6f,", PID_P_GAIN_YAW);
+    p+=sprintf(p, "\"yawIInput\":%.6f,", PID_I_GAIN_YAW);
+    p+=sprintf(p, "\"yawDInput\":%.6f,", PID_D_GAIN_YAW);
+    p+=sprintf(p, "\"altitudePInput\":%.6f,", PID_P_GAIN_ALTITUDE);
+    p+=sprintf(p, "\"altitudeIInput\":%.6f,", PID_I_GAIN_ALTITUDE);
+    p+=sprintf(p, "\"altitudeDInput\":%.6f,", PID_D_GAIN_ALTITUDE);
+
+    // camera
     p+=sprintf(p, "\"framesize\":%u,", s->status.framesize);
     p+=sprintf(p, "\"quality\":%u,", s->status.quality);
     p+=sprintf(p, "\"brightness\":%d,", s->status.brightness);
@@ -680,26 +682,26 @@ static esp_err_t pid_handler(httpd_req_t *req){
 }
 
 static esp_err_t telemetry_handler(httpd_req_t *req){
-    static char json_response[1024];
+    static char telemetry_json_response[1024];
 
-    char * p = json_response;
-    *p++ = '{';
+    char * ptr = telemetry_json_response;
+    *ptr++ = '{';
 
-    // pid
-    p+=sprintf(p, "\"pitchAngle\":%.4f,", pitchAngle);
-    p+=sprintf(p, "\"rollAngle\":%.4f,", rollAngle);
-    p+=sprintf(p, "\"flightMode\":%.4f,", flightMode);
-    p+=sprintf(p, "\"battery\":%.4f,", batteryPercentage);
-    p+=sprintf(p, "\"altitude\":%.4f,", altitudeMeasure);
-    p+=sprintf(p, "\"yawDVal\":%.4f,", PID_D_GAIN_YAW);
+    // telemetry
+    ptr+=sprintf(ptr, "\"pitchAngle\":%.4f,", pitchAngle);
+    ptr+=sprintf(ptr, "\"rollAngle\":%.4f,", rollAngle);
+    ptr+=sprintf(ptr, "\"flightMode\":%.4f,", flightMode);
+    ptr+=sprintf(ptr, "\"battery\":%.4f,", batteryPercentage);
+    ptr+=sprintf(ptr, "\"altitude\":%.4f", altitudeMeasure);
 
-    *p++ = '}';
-    *p++ = 0;
+    pitchAngle += 1;
+
+    *ptr++ = '}';
+    *ptr++ = 0;
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
-    return httpd_resp_send(req, json_response, strlen(json_response));
+    return httpd_resp_send(req, telemetry_json_response, strlen(telemetry_json_response));
 }
-
 
 void startCameraServer(){
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
@@ -781,7 +783,7 @@ void startCameraServer(){
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &pid_uri);
-        // httpd_register_uri_handler(camera_httpd, &telemetry_uri);
+        httpd_register_uri_handler(camera_httpd, &telemetry_uri);
     }
 
     config.server_port += 1;
