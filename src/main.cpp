@@ -12,16 +12,45 @@
 #define CAMERA_MODEL_AI_THINKER // Has PSRAM
 
 #include "camera_pins.h"
+#include "app_httpd.h"
+#include "telemetry.h"
 
 const char* ssid = "EspCamTest";
 const char* password = "espcamtest";
 
-void startCameraServer();
+const int timeDelay = 1;
+
+//              (ROLL)
+float PID_P_GAIN_ROLL            = 1.3;                      //Gain setting for the roll P-controller (1.3)
+float PID_I_GAIN_ROLL            = 0.001;                  //Gain setting for the roll I-controller  (0.0002)
+float PID_D_GAIN_ROLL            = 8.0;                     //Gain setting for the roll D-controller (10.0)
+                                             
+//              (PITCH)                                             
+float PID_P_GAIN_PITCH           = PID_P_GAIN_ROLL;          //Gain setting for the pitch P-controller
+float PID_I_GAIN_PITCH           = PID_I_GAIN_ROLL;          //Gain setting for the pitch I-controller
+float PID_D_GAIN_PITCH           = PID_D_GAIN_ROLL;          //Gain setting for the pitch D-controller
+                                              
+//              (YAW)                                             
+float PID_P_GAIN_YAW             = 2.2;                      //Gain setting for the pitch P-controller. (2.0)
+float PID_I_GAIN_YAW             = 0.01;                     //Gain setting for the pitch I-controller. (0.04)
+float PID_D_GAIN_YAW             = 0.0;                      //Gain setting for the pitch D-controller. (0.0)
+//              (ALTITUDE)                                                                                          
+float PID_P_GAIN_ALTITUDE        = 2.24;                     //Gain setting for the pitch P-controller. (2.0)
+float PID_I_GAIN_ALTITUDE        = 0.11;                     //Gain setting for the pitch I-controller. (0.04)
+float PID_D_GAIN_ALTITUDE        = 3.0;                      //Gain setting for the pitch D-controller. (0.0)
+                                             
+float rollAngle                  = 0.45;
+float pitchAngle                 = 5.;
+float flightMode                 = 1;
+float batteryPercentage          = .7;
+float altitudeMeasure            = 1000.;
 
 void setup() {
   Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  Serial.println();
+  // Serial.setDebugOutput(true);
+  // Serial.println();
+
+  beginUARTCOM();
 
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -60,7 +89,7 @@ void setup() {
   // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
-    Serial.printf("Camera init failed with error 0x%x", err);
+    // Serial.printf("Camera init failed with error 0x%x", err);
     return;
   }
 
@@ -75,23 +104,28 @@ void setup() {
   s->set_framesize(s, FRAMESIZE_QVGA);
 
   
-  Serial.println("");
-  Serial.println("Starting AP...");
+  // Serial.println("");
+  // Serial.println("Starting AP...");
   
   WiFi.softAP(ssid, password);
+  delay(30);
   
-  Serial.println("");
-  Serial.println("WiFi connected");
+  // Serial.println("");
+  // Serial.println("WiFi connected");
 
-  Serial.print("Camera Ready! Use 'http://");
-  Serial.print(WiFi.softAPIP());
-  Serial.println("' to connect");
+  // Serial.print("Camera Ready! Use 'http://");
+  // Serial.print(WiFi.softAPIP());
+  // Serial.println("' to connect");
 
   startCameraServer();
 
 }
 
 void loop() {
-  
-  delay(1000);
+
+  readDataTransfer();
+
+  // pitchAngle += 1.;
+  // rollAngle += 2.;
+  delay(timeDelay);
 }
