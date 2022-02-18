@@ -1,6 +1,6 @@
 #include "telemetry.h"
 
-const int dataControllerSize = 9;
+const int dataControllerSize = 12;
 float dataController[dataControllerSize];
 
 const int dataTransferSize = 5;
@@ -18,12 +18,15 @@ void updatePID(){
   dataController[0] = PID_P_GAIN_ROLL;
   dataController[1] = PID_I_GAIN_ROLL;
   dataController[2] = PID_D_GAIN_ROLL;
-  dataController[3] = PID_P_GAIN_PITCH;
-  dataController[4] = PID_I_GAIN_PITCH;
-  dataController[5] = PID_D_GAIN_PITCH;
-  dataController[6] = PID_P_GAIN_YAW;
-  dataController[7] = PID_I_GAIN_YAW;
-  dataController[8] = PID_D_GAIN_YAW;
+  dataController[3] = PID_P_GAIN_YAW;
+  dataController[4] = PID_I_GAIN_YAW;
+  dataController[5] = PID_D_GAIN_YAW;
+  dataController[6] = GYROSCOPE_ROLL_FILTER;
+  dataController[7] = GYROSCOPE_ROLL_CORR;
+  dataController[8] = GYROSCOPE_PITCH_CORR;
+  dataController[9] = PID_P_GAIN_ALTITUDE;
+  dataController[10] = PID_I_GAIN_ALTITUDE;
+  dataController[11] = PID_D_GAIN_ALTITUDE;
 }
 
 void updateTelemetry(){

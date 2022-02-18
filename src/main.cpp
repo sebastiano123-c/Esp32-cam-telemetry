@@ -15,8 +15,8 @@
 #include "app_httpd.h"
 #include "telemetry.h"
 
-const char* ssid = "EspCamTest";
-const char* password = "espcamtest";
+const char* ssid = "DroneInoTelemetry";
+const char* password = "DroneIno";
 
 const int timeDelay = 1;
 
@@ -34,6 +34,12 @@ float PID_D_GAIN_PITCH           = PID_D_GAIN_ROLL;          //Gain setting for 
 float PID_P_GAIN_YAW             = 2.2;                      //Gain setting for the pitch P-controller. (2.0)
 float PID_I_GAIN_YAW             = 0.01;                     //Gain setting for the pitch I-controller. (0.04)
 float PID_D_GAIN_YAW             = 0.0;                      //Gain setting for the pitch D-controller. (0.0)
+
+//              (GYROSCOPE)
+float GYROSCOPE_ROLL_FILTER      = .9996;                      // read your gyroscope data after the calibration, try different values and choose the best one
+float GYROSCOPE_ROLL_CORR        = -.30;                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
+float GYROSCOPE_PITCH_CORR       = -1.65;                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
+
 //              (ALTITUDE)                                                                                          
 float PID_P_GAIN_ALTITUDE        = 2.24;                     //Gain setting for the pitch P-controller. (2.0)
 float PID_I_GAIN_ALTITUDE        = 0.11;                     //Gain setting for the pitch I-controller. (0.04)
@@ -46,7 +52,7 @@ float batteryPercentage          = .7;
 float altitudeMeasure            = 1000.;
 
 void setup() {
-  Serial.begin(115200);
+  // Serial.begin(115200);
   // Serial.setDebugOutput(true);
   // Serial.println();
 

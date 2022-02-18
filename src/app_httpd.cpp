@@ -545,6 +545,9 @@ static esp_err_t status_handler(httpd_req_t *req){
     p+=sprintf(p, "\"yawPInput\":%.6f,", PID_P_GAIN_YAW);
     p+=sprintf(p, "\"yawIInput\":%.6f,", PID_I_GAIN_YAW);
     p+=sprintf(p, "\"yawDInput\":%.6f,", PID_D_GAIN_YAW);
+    p+=sprintf(p, "\"filterPitchRollInput\":%.6f,", GYROSCOPE_ROLL_FILTER);
+    p+=sprintf(p, "\"correctionRollInput\":%.6f,", GYROSCOPE_ROLL_CORR);
+    p+=sprintf(p, "\"correctionPitchInput\":%.6f,", GYROSCOPE_PITCH_CORR);
     p+=sprintf(p, "\"altitudePInput\":%.6f,", PID_P_GAIN_ALTITUDE);
     p+=sprintf(p, "\"altitudeIInput\":%.6f,", PID_I_GAIN_ALTITUDE);
     p+=sprintf(p, "\"altitudeDInput\":%.6f,", PID_D_GAIN_ALTITUDE);
@@ -642,6 +645,9 @@ static esp_err_t pid_handler(httpd_req_t *req){
     else if(!strcmp(variable, "yawPInput")) PID_P_GAIN_YAW = val;
     else if(!strcmp(variable, "yawIInput")) PID_I_GAIN_YAW = val;
     else if(!strcmp(variable, "yawDInput")) PID_D_GAIN_YAW = val;
+    else if(!strcmp(variable, "filterPitchRollInput")) GYROSCOPE_ROLL_FILTER = val;
+    else if(!strcmp(variable, "correctionRollInput")) GYROSCOPE_ROLL_CORR = val;
+    else if(!strcmp(variable, "correctionPitchInput")) GYROSCOPE_PITCH_CORR = val;
     else if(!strcmp(variable, "altitudePInput")) PID_P_GAIN_ALTITUDE = val;
     else if(!strcmp(variable, "altitudeIInput")) PID_I_GAIN_ALTITUDE = val;
     else if(!strcmp(variable, "altitudeDInput")) PID_D_GAIN_ALTITUDE = val;
