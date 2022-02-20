@@ -1,10 +1,19 @@
+/**
+ * @file telemetry.cpp
+ * @author @sebastiano123-c
+ * @brief telemetry utilities
+ * @version 0.1
+ * @date 2022-02-18
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "telemetry.h"
 
-const int dataControllerSize = 12;
-float dataController[dataControllerSize];
-
-const int dataTransferSize = 5;
 float dataTransfer[dataTransferSize];
+
+float dataController[dataControllerSize];
 
 // serial
 HardwareSerial SUART(1); 
@@ -14,7 +23,11 @@ void beginUARTCOM(){
 }
 
 void updatePID(){
-  // fill data structure before send
+  /**
+   * @brief fill PID data structure after receiving
+   * 
+   */
+
   dataController[0] = PID_P_GAIN_ROLL;
   dataController[1] = PID_I_GAIN_ROLL;
   dataController[2] = PID_D_GAIN_ROLL;
@@ -30,7 +43,11 @@ void updatePID(){
 }
 
 void updateTelemetry(){
-  // fill data structure after receiving
+  /**
+   * @brief fill data structure after receiving
+   * 
+   */
+  
   rollAngle = dataTransfer[0];
   pitchAngle = dataTransfer[1];
   flightMode = dataTransfer[2];
@@ -39,6 +56,10 @@ void updateTelemetry(){
 }
 
 void writeDataTransfer(){
+  /**
+   * @brief write data back to the board mother
+   * 
+   */
 
   //Serial.printf("I'm sending...\n"); 
   updatePID();
@@ -51,8 +72,12 @@ void writeDataTransfer(){
   SUART.printf("%.6f\n", dataController[dataControllerSize - 1]);
 }
 
-
 void readDataTransfer(){
+  /**
+   * @brief read data coming from board mother
+   * 
+   */
+
     if(SUART.available()){
         // declair index array
         int indices[dataTransferSize-1];

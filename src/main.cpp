@@ -1,10 +1,15 @@
 /** 
- * Esp32-cam telemtry
+ * @file main.cpp
  * @author @sebastiano123-c
  * @brief wifi based telemtry system using your esp3-cam
  * @note board: AI thinker
  * @todo include pid elements as status
+ * @version 0.1
+ * @date 2022-02-18
+ * 
+ * @copyright Copyright (c) 2022
  */
+
 #include <Arduino.h>
 #include "esp_camera.h"
 #include <WiFi.h>
@@ -14,42 +19,42 @@
 #include "camera_pins.h"
 #include "app_httpd.h"
 #include "telemetry.h"
+#include "camSD.h"
 
 const char* ssid = "DroneInoTelemetry";
 const char* password = "DroneIno";
 
 const int timeDelay = 1;
 
-//              (ROLL)
-float PID_P_GAIN_ROLL            = 1.3;                      //Gain setting for the roll P-controller (1.3)
-float PID_I_GAIN_ROLL            = 0.001;                  //Gain setting for the roll I-controller  (0.0002)
-float PID_D_GAIN_ROLL            = 8.0;                     //Gain setting for the roll D-controller (10.0)
-                                             
-//              (PITCH)                                             
-float PID_P_GAIN_PITCH           = PID_P_GAIN_ROLL;          //Gain setting for the pitch P-controller
-float PID_I_GAIN_PITCH           = PID_I_GAIN_ROLL;          //Gain setting for the pitch I-controller
-float PID_D_GAIN_PITCH           = PID_D_GAIN_ROLL;          //Gain setting for the pitch D-controller
-                                              
-//              (YAW)                                             
-float PID_P_GAIN_YAW             = 2.2;                      //Gain setting for the pitch P-controller. (2.0)
-float PID_I_GAIN_YAW             = 0.01;                     //Gain setting for the pitch I-controller. (0.04)
-float PID_D_GAIN_YAW             = 0.0;                      //Gain setting for the pitch D-controller. (0.0)
+float PID_P_GAIN_ROLL = 0.;
+float PID_I_GAIN_ROLL = 0.;
+float PID_D_GAIN_ROLL = 0.;
+                                            
+    //              (PITCH)                                             
+    float PID_P_GAIN_PITCH = 0.;
+float PID_I_GAIN_PITCH = 0.;
+float PID_D_GAIN_PITCH = 0.;
+                                            
+    //              (YAW)                                             
+    float PID_P_GAIN_YAW = 0.;
+float PID_I_GAIN_YAW = 0.;
+float PID_D_GAIN_YAW = 0.;
 
-//              (GYROSCOPE)
-float GYROSCOPE_ROLL_FILTER      = .9996;                      // read your gyroscope data after the calibration, try different values and choose the best one
-float GYROSCOPE_ROLL_CORR        = -.30;                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
-float GYROSCOPE_PITCH_CORR       = -1.65;                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
+    // GYROSCOPE
+    float GYROSCOPE_ROLL_FILTER = 0.;
+float GYROSCOPE_ROLL_CORR = 0.;
+float GYROSCOPE_PITCH_CORR = 0.;
 
-//              (ALTITUDE)                                                                                          
-float PID_P_GAIN_ALTITUDE        = 2.24;                     //Gain setting for the pitch P-controller. (2.0)
-float PID_I_GAIN_ALTITUDE        = 0.11;                     //Gain setting for the pitch I-controller. (0.04)
-float PID_D_GAIN_ALTITUDE        = 3.0;                      //Gain setting for the pitch D-controller. (0.0)
-                                             
-float rollAngle                  = 0.45;
-float pitchAngle                 = 5.;
-float flightMode                 = 1;
-float batteryPercentage          = .7;
-float altitudeMeasure            = 1000.;
+    //              (ALTITUDE)                                                                                          
+    float PID_P_GAIN_ALTITUDE = 0.;
+float PID_I_GAIN_ALTITUDE = 0.;
+float PID_D_GAIN_ALTITUDE = 0.;
+
+float rollAngle = 1;
+float pitchAngle = 2;
+float flightMode = 3;
+float batteryPercentage = 4;
+float altitudeMeasure = 5;
 
 void setup() {
   // Serial.begin(115200);
@@ -57,6 +62,10 @@ void setup() {
   // Serial.println();
 
   beginUARTCOM();
+
+  // SD_MMC.begin();
+
+  setupSD();
 
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -122,7 +131,7 @@ void setup() {
   // Serial.print("Camera Ready! Use 'http://");
   // Serial.print(WiFi.softAPIP());
   // Serial.println("' to connect");
-
+  
   startCameraServer();
 
 }
@@ -131,7 +140,7 @@ void loop() {
 
   readDataTransfer();
 
-  // pitchAngle += 1.;
-  // rollAngle += 2.;
+  if(isConnectedSD == 1) writeDataLogFlight(SD_MMC);
+
   delay(timeDelay);
 }
