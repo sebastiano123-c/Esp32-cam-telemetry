@@ -50,11 +50,11 @@ float GYROSCOPE_PITCH_CORR = 0.;
 float PID_I_GAIN_ALTITUDE = 0.;
 float PID_D_GAIN_ALTITUDE = 0.;
 
-float rollAngle = 1;
-float pitchAngle = 2;
-float flightMode = 3;
-float batteryPercentage = 4;
-float altitudeMeasure = 5;
+float rollAngle = 1.;
+float pitchAngle = 1.;
+float flightMode = 1.;
+float batteryPercentage = 1.;
+float altitudeMeasure = 1.;
 
 void setup() {
   // Serial.begin(115200);
@@ -63,7 +63,7 @@ void setup() {
 
   beginUARTCOM();
 
-  // SD_MMC.begin();
+  delay(40);
 
   setupSD();
 
@@ -140,7 +140,10 @@ void loop() {
 
   readDataTransfer();
 
-  if(isConnectedSD == 1) writeDataLogFlight(SD_MMC);
+  // update flightData
+  writeDataLogFlight(SD_MMC);
+
+  // rollAngle += 1;
 
   delay(timeDelay);
 }

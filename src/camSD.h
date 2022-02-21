@@ -7,6 +7,6 @@
 
 extern uint8_t isConnectedSD;
 
-void setupSD();
-void writeDataLogFlight(fs::FS &fs);
-void updateConfigFile(fs::FS &fs);
+extern void setupSD();
+extern void writeDataLogFlight(fs::FS &fs);
+extern void updateConfigFile(fs::FS &fs);

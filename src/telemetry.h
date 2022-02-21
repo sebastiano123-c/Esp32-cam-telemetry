@@ -37,6 +37,6 @@ extern float altitudeMeasure;
 const int dataTransferSize = 5;
 const int dataControllerSize = 12;
 
-void writeDataTransfer();
-void readDataTransfer();
-void beginUARTCOM();
+extern void writeDataTransfer();
+extern void readDataTransfer();
+extern void beginUARTCOM();

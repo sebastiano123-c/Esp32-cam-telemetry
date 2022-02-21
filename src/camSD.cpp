@@ -77,81 +77,84 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
 }
 
 //Read the config flight file
-void readConfigFile(){
+void readConfigFile(fs::FS &fs){
     /**
      * @brief initialize the PID
      * 
      */
     float arr[dataControllerSize];
 
-    File file = SD_MMC.open(configFilePath);
+    File file = fs.open(configFilePath);
+    if(file){
+        for (int i = 0; i < dataControllerSize; i++) {
+            arr[i] = file.parseFloat();
+        }
+        //file.close();
 
-    for (int i = 0; i < dataControllerSize; i++) {
-        arr[i] = file.parseFloat();
+        //              (ROLL)
+        PID_P_GAIN_ROLL = arr[0];                    //Gain setting for the roll P-controller (1.3)
+        PID_I_GAIN_ROLL = arr[1];                  //Gain setting for the roll I-controller  (0.0002)
+        PID_D_GAIN_ROLL = arr[2];                   //Gain setting for the roll D-controller (10.0)
+                                                    
+        //              (PITCH)                                             
+        PID_P_GAIN_PITCH = arr[0];          //Gain setting for the pitch P-controller
+        PID_I_GAIN_PITCH = arr[1];          //Gain setting for the pitch I-controller
+        PID_D_GAIN_PITCH = arr[2];           //Gain setting for the pitch D-controller
+                                                    
+        //              (YAW)                                             
+        PID_P_GAIN_YAW = arr[3];                      //Gain setting for the pitch P-controller. (2.0)
+        PID_I_GAIN_YAW = arr[4];                     //Gain setting for the pitch I-controller. (0.04)
+        PID_D_GAIN_YAW = arr[5];                      //Gain setting for the pitch D-controller. (0.0)
+
+        // GYROSCOPE
+        GYROSCOPE_ROLL_FILTER = arr[6];                      // read your gyroscope data after the calibration, try different values and choose the best one
+        GYROSCOPE_ROLL_CORR = arr[7];                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
+        GYROSCOPE_PITCH_CORR = arr[8];                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
+
+        //              (ALTITUDE)                                                                                          
+        PID_P_GAIN_ALTITUDE = arr[9];                     //Gain setting for the pitch P-controller. (2.0)
+        PID_I_GAIN_ALTITUDE = arr[10];                     //Gain setting for the pitch I-controller. (0.04)
+        PID_D_GAIN_ALTITUDE = arr[11];                      //Gain setting for the pitch D-controller. (0.0)
+
+        // update DroneIno PID parameters
+        /**
+         * @bug calling this function here the telemetry gives infinity
+         * 
+         */
+        writeDataTransfer();
+        
+        // for(int ii = 0; ii < dataControllerSize; ii++) Serial.printf("%i: %.6f\n", ii, arr[ii]);
     }
-    //file.close();
-
-    //              (ROLL)
-    PID_P_GAIN_ROLL = arr[0];                    //Gain setting for the roll P-controller (1.3)
-    PID_I_GAIN_ROLL = arr[1];                  //Gain setting for the roll I-controller  (0.0002)
-    PID_D_GAIN_ROLL = arr[2];                   //Gain setting for the roll D-controller (10.0)
-                                                
-    //              (PITCH)                                             
-    PID_P_GAIN_PITCH = arr[0];          //Gain setting for the pitch P-controller
-    PID_I_GAIN_PITCH = arr[1];          //Gain setting for the pitch I-controller
-    PID_D_GAIN_PITCH = arr[2];           //Gain setting for the pitch D-controller
-                                                
-    //              (YAW)                                             
-    PID_P_GAIN_YAW = arr[3];                      //Gain setting for the pitch P-controller. (2.0)
-    PID_I_GAIN_YAW = arr[4];                     //Gain setting for the pitch I-controller. (0.04)
-    PID_D_GAIN_YAW = arr[5];                      //Gain setting for the pitch D-controller. (0.0)
-
-    // GYROSCOPE
-    GYROSCOPE_ROLL_FILTER = arr[6];                      // read your gyroscope data after the calibration, try different values and choose the best one
-    GYROSCOPE_ROLL_CORR = arr[7];                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
-    GYROSCOPE_PITCH_CORR = arr[8];                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
-
-    //              (ALTITUDE)                                                                                          
-    PID_P_GAIN_ALTITUDE = arr[9];                     //Gain setting for the pitch P-controller. (2.0)
-    PID_I_GAIN_ALTITUDE = arr[10];                     //Gain setting for the pitch I-controller. (0.04)
-    PID_D_GAIN_ALTITUDE = arr[11];                      //Gain setting for the pitch D-controller. (0.0)
-
-    // update DroneIno PID parameters
-    writeDataTransfer();
-    
-    // for(int ii = 0; ii < dataControllerSize; ii++) Serial.printf("%i: %.6f\n", ii, arr[ii]);
-
 }
 
 void updateConfigFile(fs::FS &fs){
     File file = fs.open("/src/config.txt", FILE_WRITE);
-    if(!file){
-        // Serial.println("Failed to open file for writing");
-        return;
+    if(file){
+
+        static char message[1024];
+
+        char * p = message;
+        *p++ = ' ';
+
+        // pid
+        p+=sprintf(p, "%.6f\n", PID_P_GAIN_ROLL);
+        p+=sprintf(p, "%.6f\n", PID_I_GAIN_ROLL);
+        p+=sprintf(p, "%.6f\n", PID_D_GAIN_ROLL);
+        p+=sprintf(p, "%.6f\n", PID_P_GAIN_YAW);
+        p+=sprintf(p, "%.6f\n", PID_I_GAIN_YAW);
+        p+=sprintf(p, "%.6f\n", PID_D_GAIN_YAW);
+        p+=sprintf(p, "%.6f\n", GYROSCOPE_ROLL_FILTER);
+        p+=sprintf(p, "%.6f\n", GYROSCOPE_ROLL_CORR);
+        p+=sprintf(p, "%.6f\n", GYROSCOPE_PITCH_CORR);
+        p+=sprintf(p, "%.6f\n", PID_P_GAIN_ALTITUDE);
+        p+=sprintf(p, "%.6f\n", PID_I_GAIN_ALTITUDE);
+        p+=sprintf(p, "%.6f\n", PID_D_GAIN_ALTITUDE);
+
+        *p++ = 0;
+    
+        file.print(message);
+        file.close();
     }
-
-    static char message[1024];
-
-    char * p = message;
-    *p++ = ' ';
-
-    // pid
-    p+=sprintf(p, "%.6f\n", PID_P_GAIN_ROLL);
-    p+=sprintf(p, "%.6f\n", PID_I_GAIN_ROLL);
-    p+=sprintf(p, "%.6f\n", PID_D_GAIN_ROLL);
-    p+=sprintf(p, "%.6f\n", PID_P_GAIN_YAW);
-    p+=sprintf(p, "%.6f\n", PID_I_GAIN_YAW);
-    p+=sprintf(p, "%.6f\n", PID_D_GAIN_YAW);
-    p+=sprintf(p, "%.6f\n", GYROSCOPE_ROLL_FILTER);
-    p+=sprintf(p, "%.6f\n", GYROSCOPE_ROLL_CORR);
-    p+=sprintf(p, "%.6f\n", GYROSCOPE_PITCH_CORR);
-    p+=sprintf(p, "%.6f\n", PID_P_GAIN_ALTITUDE);
-    p+=sprintf(p, "%.6f\n", PID_I_GAIN_ALTITUDE);
-    p+=sprintf(p, "%.6f\n", PID_D_GAIN_ALTITUDE);
-
-    *p++ = 0;
- 
-    file.print(message);
 }
 
 void writeDataLogFlight(fs::FS &fs){
@@ -160,24 +163,27 @@ void writeDataLogFlight(fs::FS &fs){
      * 
      */
 
-    static char stringToPrint[1024];
+    File file = SD_MMC.open(logFileName, FILE_APPEND);
+    if(file){
 
-    char * ptr = stringToPrint;
-    *ptr++ = ' ';
+        static char stringToPrint[1024];
 
-    // telemetry
-    ptr+=sprintf(ptr, "%.6f,", rollAngle);
-    ptr+=sprintf(ptr, "%.6f,", pitchAngle);
-    ptr+=sprintf(ptr, "%.6f,", flightMode);
-    ptr+=sprintf(ptr, "%.6f,", batteryPercentage);
-    ptr+=sprintf(ptr, "%.6f", altitudeMeasure);
+        char * ptr = stringToPrint;
+        *ptr++ = ' ';
 
-    *ptr++ = '\n';
-    *ptr++ = 0;
+        // telemetry
+        ptr+=sprintf(ptr, "%.6f,", rollAngle);
+        ptr+=sprintf(ptr, "%.6f,", pitchAngle);
+        ptr+=sprintf(ptr, "%.6f,", flightMode);
+        ptr+=sprintf(ptr, "%.6f,", batteryPercentage);
+        ptr+=sprintf(ptr, "%.6f", altitudeMeasure);
 
-    File file = fs.open(logFileName, FILE_APPEND);
-    file.print(stringToPrint);
-    // file.close();
+        *ptr++ = '\n';
+        *ptr++ = 0;
+
+        file.print(stringToPrint);
+        file.close();
+    }
 
 }
 
@@ -221,7 +227,7 @@ void setupSD() {
         writeFile(SD_MMC, logFileName, "roll, pitch, flightMode, battery, altitude\n");
 
         // initialize PID
-        readConfigFile();
+        readConfigFile(SD_MMC);
     }
 
 }

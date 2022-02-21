@@ -651,6 +651,7 @@ static esp_err_t pid_handler(httpd_req_t *req){
 }
 
 static esp_err_t telemetry_handler(httpd_req_t *req){
+
     static char telemetry_json_response[1024];
 
     char * ptr = telemetry_json_response;
@@ -665,9 +666,6 @@ static esp_err_t telemetry_handler(httpd_req_t *req){
 
     *ptr++ = '}';
     *ptr++ = 0;
-
-    // write the flight data on SD 
-    writeDataLogFlight(SD_MMC);
 
     // send response to the client
     httpd_resp_set_type(req, "application/json");
