@@ -21,35 +21,37 @@
 #include "telemetry.h"
 #include "camSD.h"
 
-const char* ssid = "DroneInoTelemetry";
-const char* password = "DroneIno";
+const char* ssid = "Esp32CamTelemetry";   // change with your project name
+const char* password = "esp32cam";        // be sure to have at least 8 characters otherwise the wifi do not start
 
 const int timeDelay = 1;
 
+//              (ROLL) 
 float PID_P_GAIN_ROLL = 0.;
 float PID_I_GAIN_ROLL = 0.;
 float PID_D_GAIN_ROLL = 0.;
                                             
-    //              (PITCH)                                             
-    float PID_P_GAIN_PITCH = 0.;
+//              (PITCH)                                             
+float PID_P_GAIN_PITCH = 0.;
 float PID_I_GAIN_PITCH = 0.;
 float PID_D_GAIN_PITCH = 0.;
                                             
-    //              (YAW)                                             
-    float PID_P_GAIN_YAW = 0.;
+//              (YAW)                                             
+float PID_P_GAIN_YAW = 0.;
 float PID_I_GAIN_YAW = 0.;
 float PID_D_GAIN_YAW = 0.;
 
-    // GYROSCOPE
-    float GYROSCOPE_ROLL_FILTER = 0.;
+//             (GYROSCOPE)
+float GYROSCOPE_ROLL_FILTER = 0.;
 float GYROSCOPE_ROLL_CORR = 0.;
 float GYROSCOPE_PITCH_CORR = 0.;
 
-    //              (ALTITUDE)                                                                                          
-    float PID_P_GAIN_ALTITUDE = 0.;
+//             (ALTITUDE)                                      
+float PID_P_GAIN_ALTITUDE = 0.;
 float PID_I_GAIN_ALTITUDE = 0.;
 float PID_D_GAIN_ALTITUDE = 0.;
 
+//            (TELEMETRY)
 float rollAngle = 1.;
 float pitchAngle = 1.;
 float flightMode = 1.;
@@ -57,9 +59,6 @@ float batteryPercentage = 1.;
 float altitudeMeasure = 1.;
 
 void setup() {
-  // Serial.begin(115200);
-  // Serial.setDebugOutput(true);
-  // Serial.println();
 
   beginUARTCOM();
 
@@ -104,7 +103,6 @@ void setup() {
   // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
-    // Serial.printf("Camera init failed with error 0x%x", err);
     return;
   }
 
@@ -117,21 +115,10 @@ void setup() {
   }
   // drop down frame size for higher initial frame rate
   s->set_framesize(s, FRAMESIZE_QVGA);
-
-  
-  // Serial.println("");
-  // Serial.println("Starting AP...");
   
   WiFi.softAP(ssid, password);
   delay(30);
-  
-  // Serial.println("");
-  // Serial.println("WiFi connected");
 
-  // Serial.print("Camera Ready! Use 'http://");
-  // Serial.print(WiFi.softAPIP());
-  // Serial.println("' to connect");
-  
   startCameraServer();
 
 }
@@ -142,8 +129,6 @@ void loop() {
 
   // update flightData
   writeDataLogFlight(SD_MMC);
-
-  // rollAngle += 1;
 
   delay(timeDelay);
 }

@@ -6,7 +6,11 @@
 
 # test
 test/index.html
-test/original-index.html
+# test/original-index.html
 test/full-compressed-index.html
 test/script.js
 test/style.css
+
+test/charTest.cpp
+test/charTest.exe
+test/uart

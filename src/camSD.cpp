@@ -95,22 +95,22 @@ void readConfigFile(fs::FS &fs){
         PID_P_GAIN_ROLL = arr[0];                    //Gain setting for the roll P-controller (1.3)
         PID_I_GAIN_ROLL = arr[1];                  //Gain setting for the roll I-controller  (0.0002)
         PID_D_GAIN_ROLL = arr[2];                   //Gain setting for the roll D-controller (10.0)
-                                                    
+                                                              
         //              (PITCH)                                             
         PID_P_GAIN_PITCH = arr[0];          //Gain setting for the pitch P-controller
         PID_I_GAIN_PITCH = arr[1];          //Gain setting for the pitch I-controller
         PID_D_GAIN_PITCH = arr[2];           //Gain setting for the pitch D-controller
-                                                    
+                                                                    
         //              (YAW)                                             
         PID_P_GAIN_YAW = arr[3];                      //Gain setting for the pitch P-controller. (2.0)
         PID_I_GAIN_YAW = arr[4];                     //Gain setting for the pitch I-controller. (0.04)
         PID_D_GAIN_YAW = arr[5];                      //Gain setting for the pitch D-controller. (0.0)
-
+                          
         // GYROSCOPE
         GYROSCOPE_ROLL_FILTER = arr[6];                      // read your gyroscope data after the calibration, try different values and choose the best one
         GYROSCOPE_ROLL_CORR = arr[7];                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
         GYROSCOPE_PITCH_CORR = arr[8];                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
-
+                       
         //              (ALTITUDE)                                                                                          
         PID_P_GAIN_ALTITUDE = arr[9];                     //Gain setting for the pitch P-controller. (2.0)
         PID_I_GAIN_ALTITUDE = arr[10];                     //Gain setting for the pitch I-controller. (0.04)
