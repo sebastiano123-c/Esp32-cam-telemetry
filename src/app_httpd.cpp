@@ -5,6 +5,8 @@
 
 #include "app_httpd.h"
 
+
+// camera configuration
 #define ENROLL_CONFIRM_TIMES 5
 #define FACE_ID_SAVE_NUMBER 7
 
@@ -16,7 +18,10 @@
 #define FACE_COLOR_YELLOW (FACE_COLOR_RED | FACE_COLOR_GREEN)
 #define FACE_COLOR_CYAN   (FACE_COLOR_BLUE | FACE_COLOR_GREEN)
 #define FACE_COLOR_PURPLE (FACE_COLOR_BLUE | FACE_COLOR_RED)
+#define PART_BOUNDARY "123456789000000000000987654321"
 
+
+// camera structures
 typedef struct {
         size_t size; //number of values used for filtering
         size_t index; //current value index
@@ -30,7 +35,8 @@ typedef struct {
         size_t len;
 } jpg_chunking_t;
 
-#define PART_BOUNDARY "123456789000000000000987654321"
+
+// streaming 
 static const char* _STREAM_CONTENT_TYPE = "multipart/x-mixed-replace;boundary=" PART_BOUNDARY;
 static const char* _STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
 static const char* _STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n";
@@ -45,6 +51,13 @@ static int8_t recognition_enabled = 0;
 static int8_t is_enrolling = 0;
 static face_id_list id_list = {0};
 
+/**
+ * @brief gives the camera filter
+ * 
+ * @param filter filter object
+ * @param sample_size
+ * @return ra_filter_t* 
+ */
 static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
     memset(filter, 0, sizeof(ra_filter_t));
 
@@ -58,6 +71,13 @@ static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
     return filter;
 }
 
+/**
+ * @brief 
+ * 
+ * @param filter 
+ * @param value 
+ * @return int 
+ */
 static int ra_filter_run(ra_filter_t * filter, int value){
     if(!filter->values){
         return value;
@@ -107,7 +127,13 @@ static int rgb_printf(dl_matrix3du_t *image_matrix, uint32_t color, const char *
     }
     return len;
 }
-
+/**
+ * @brief draws boxes on faces
+ * 
+ * @param image_matrix 
+ * @param boxes 
+ * @param face_id 
+ */
 static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes, int face_id){
     int x, y, w, h, i;
     uint32_t color = FACE_COLOR_YELLOW;
@@ -285,6 +311,12 @@ static esp_err_t capture_handler(httpd_req_t *req){
     return res;
 }
 
+/**
+ * @brief server handler for camera streaming 
+ * 
+ * @param req 
+ * @return esp_err_t 
+ */
 static esp_err_t stream_handler(httpd_req_t *req){
     camera_fb_t * fb = NULL;
     esp_err_t res = ESP_OK;
@@ -586,10 +618,13 @@ static esp_err_t index_handler(httpd_req_t *req){
     return httpd_resp_send(req, (const char *)index_ov2640_html_gz, index_ov2640_html_gz_len);
 }
 
+/**
+ * @brief server handler for the PID parameters
+ * 
+ * @param req client request
+ * @return esp_err_t 
+ */
 static esp_err_t pid_handler(httpd_req_t *req){
-    /*
-     * @brief gets the pid parameters
-     */
 
     char*  buf;
     size_t buf_len;
@@ -650,6 +685,12 @@ static esp_err_t pid_handler(httpd_req_t *req){
     return httpd_resp_send(req, NULL, 0);
 }
 
+/**
+ * @brief server handler for telemetry data update
+ * 
+ * @param req client request
+ * @return esp_err_t 
+ */
 static esp_err_t telemetry_handler(httpd_req_t *req){
 
     static char telemetry_json_response[1024];

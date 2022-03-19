@@ -1,11 +1,30 @@
 /**
  * @file wifi-tx.ino
  * @author @sebastiano123-c
- * @brief transmitter board sketch
+ * 
+ * @brief this sketch is a useful transmitter example.
+ *    1- UART transmitter board pins are (TXb, RXb) and UART esp32-cam pins are (TX0, RX0).
+ *      Connect:
+ *        TXb -> RX0
+ *        RXb -> TX0
+ *        GND -> GND
+ *    2- This sketch governs the tx board with two functions:
+ *        void writeDataTransfer();    writes telemetry parameters using uart pins to the esp32-cam
+ *        void readDataTransfer();     read PID parameters modified on the client and sent back to the transmitter
+ *    3- On the esp32-cam side the latter functions are caught by:
+ *        void readDataTransfer();     read telemetry parameters from the transmitter
+ *        void writeDataTransfer();    writes PID parameters to the transmitter
+ * 
+ *  @param delayTime can be adjusted by the user to simulate the drone loop time
+ *  @param dataTransferSize   elements number of telemetry data to sent
+ *  @param dataControllerSize elements number of PID parameters to receive
+ * 
  * @version 0.1
  * @date 2022-02-23
  * 
  * @copyright Copyright (c) 2022
+ * 
+
  * 
  */
 
@@ -61,11 +80,12 @@ void setup()
 
 void loop()
 {
+  // simulate some telemetry parameter updates
   angleRoll = angleRoll + 0.01;
   anglePitch = anglePitch + 0.013;
 
   switch(sendTelemetryLoopN){
-    case 1:                      // sendTelemetryLoopN * 4 ms
+    case 1:                     
       writeDataTransfer();
       sendTelemetryLoopN = 0;
       break;
@@ -81,6 +101,11 @@ void loop()
  delay(delayTime);
 }
 
+
+/**
+ * @brief writes telemetry parameters using UART communication
+ * 
+ */
 void writeDataTransfer(){
 
   Serial.printf("I'm sending...\n");
@@ -101,10 +126,16 @@ void writeDataTransfer(){
   SUART.printf("%.6f>\n", dataTransfer[dataTransferSize - 1]);
 
   // print
-  checkMessage();
+  for(int i = 0; i < dataTransferSize; i++){
+    Serial.printf("%.6f\n", dataTransfer[i]);
+  }
 }
 
 
+/**
+ * @brief reads PID parameters set on the client
+ * 
+ */
 void readDataTransfer(){
 
   // declair index array
@@ -148,13 +179,5 @@ void readDataTransfer(){
   // print in csv format   
   for(int i = 0; i < dataControllerSize; i++){
     Serial.printf("%.6f\n", dataController[i]);
-  }
-}
-
-
-void checkMessage(){
-  // print in csv format   
-  for(int i = 0; i < dataTransferSize; i++){
-    Serial.printf("%.6f\n", dataTransfer[i]);
   }
 }
