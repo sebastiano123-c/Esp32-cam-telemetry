@@ -83,11 +83,16 @@ void readDataTransfer(){
         dataTransfer[dataTransferSize - 1] = str.substring(indices[dataTransferSize - 2] + 1 ).toFloat();
         
         // fill data structure after receiving
-        rollAngle = dataTransfer[0];
-        pitchAngle = dataTransfer[1];
-        flightMode = dataTransfer[2];
+        rollAngle         = dataTransfer[0];
+        pitchAngle        = dataTransfer[1];
+        flightMode        = dataTransfer[2];
         batteryPercentage = dataTransfer[3];
-        altitudeMeasure = dataTransfer[4];
+        altitudeMeasure   = dataTransfer[4];
+
+        rollTrim          = dataTransfer[5];
+        pitchTrim         = dataTransfer[6];
+        yawTrim           = dataTransfer[7];
+        throttleTrim      = dataTransfer[8];
         
         //  // print in csv format   
         //  for(int i = 0; i < dataTransferSize; i++){

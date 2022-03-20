@@ -166,23 +166,32 @@ void writeDataLogFlight(fs::FS &fs){
     File file = SD_MMC.open(logFileName, FILE_APPEND);
     if(file){
 
-        static char stringToPrint[1024];
+        if(rollTrim - 1 > 1e-10 && pitchTrim - 1 > 1e-10 && yawTrim - 1 > 1e-10 && throttleTrim - 1 > 1e-10){
+            static char stringToPrint[1024];
 
-        char * ptr = stringToPrint;
-        *ptr++ = ' ';
+            char * ptr = stringToPrint;
+            *ptr++ = ' ';
 
-        // telemetry
-        ptr+=sprintf(ptr, "%.6f,", rollAngle);
-        ptr+=sprintf(ptr, "%.6f,", pitchAngle);
-        ptr+=sprintf(ptr, "%.6f,", flightMode);
-        ptr+=sprintf(ptr, "%.6f,", batteryPercentage);
-        ptr+=sprintf(ptr, "%.6f", altitudeMeasure);
+            // telemetry
+            ptr+=sprintf(ptr, "%.6f,", rollAngle);
+            ptr+=sprintf(ptr, "%.6f,", pitchAngle);
+            ptr+=sprintf(ptr, "%i,", (int)flightMode);
+            ptr+=sprintf(ptr, "%.6f,", batteryPercentage);
+            ptr+=sprintf(ptr, "%.6f,", altitudeMeasure);
 
-        *ptr++ = '\n';
-        *ptr++ = 0;
+            ptr+=sprintf(ptr, "%i,", (int) rollTrim);
+            ptr+=sprintf(ptr, "%i,", (int) pitchTrim);
+            ptr+=sprintf(ptr, "%i,", (int) yawTrim);
+            ptr+=sprintf(ptr, "%i", (int) throttleTrim);
 
-        file.print(stringToPrint);
+            *ptr++ = '\n';
+            *ptr++ = 0;
+
+            file.print(stringToPrint);
+        }
+
         file.close();
+
     }
 
 }
@@ -224,7 +233,7 @@ void setupSD() {
         numberOfDataFiles = 0;
 
         // create log file for this session
-        writeFile(SD_MMC, logFileName, "roll, pitch, flightMode, battery, altitude\n");
+        writeFile(SD_MMC, logFileName, flightDataHeaderCSV);
 
         // initialize PID
         readConfigFile(SD_MMC);
