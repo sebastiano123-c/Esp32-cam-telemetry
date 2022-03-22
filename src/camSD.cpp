@@ -62,6 +62,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     // Serial.printf("Writing file: %s\n", path);
 
     File file = fs.open(path, FILE_WRITE);
+
     if(!file){
         // Serial.println("Failed to open file for writing");
         return;
@@ -75,6 +76,27 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
         // Serial.println("Write failed");
     }
 }
+
+//Write a file in SD card
+void appendFile(fs::FS &fs, const char * path, const char * message){
+    // Serial.printf("Writing file: %s\n", path);
+
+    File file = fs.open(path, FILE_APPEND);
+
+    if(!file){
+        // Serial.println("Failed to open file for writing");
+        return;
+    }
+   
+ 
+   //fwrite(fb->buf, 1, fb->len, file);
+    if(file.print(message)){
+        // Serial.println("File written");
+    } else {
+        // Serial.println("Write failed");
+    }
+}
+
 
 //Read the config flight file
 void readConfigFile(fs::FS &fs){
@@ -225,7 +247,7 @@ void setupSD() {
 
         // write file name
         char * sptr = todayLogChar;
-        *sptr++ = '/';
+        // *sptr++ = '';
         sptr+=sprintf(sptr, "%s", flightDataPath);
         sptr+=sprintf(sptr, "/flight_%i.csv", numberOfDataFiles+1);
         *sptr++ = 0;
@@ -235,8 +257,6 @@ void setupSD() {
         // create log file for this session
         writeFile(SD_MMC, logFileName, flightDataHeaderCSV);
 
-        // initialize PID
-        readConfigFile(SD_MMC);
     }
 
 }

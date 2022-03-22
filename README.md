@@ -39,7 +39,8 @@ Connect the RX1 (GPIO 26) of the esp32 to the TX0 (GPIO 1) of esp32-cam, and TX1
 Upload the [wifi-tx](https://github.com/sebastiano123-c/Esp32-cam-telemetry/test/wifi-tx/wifi-tx.ino) sketch on your transmitter board.
 
 # Telemetry
-For simplicity, in this code I use 5 variables: roll, pitch, flight mode, altitude and battery which are updated at the every 100ms in the browser.
+In this code I use variables: roll, pitch, flight mode, altitude, battery and the four channels of the controller.
+These values are updated at the every 100ms in the browser.
 
 # Talk with drone
 PID variables are easily set in the browser in the toggling menu.
@@ -56,7 +57,7 @@ SD card _must_ be formatted in FAT32.
 In the SD you create a directory and a file called `/src/config.txt` in which you write _only_ the initial PID parameters.
 From this file, at the drone start, the parameters are uploaded to browser and sent back to the drone.
 
-With SD card your flightData will be save in a file in the folder `/data/flight_i.txt`, which is automatically created.
+With SD card your flightData will be save in a file in the folder `/data/flight_i.csv`, which is automatically created.
 
 The directory structure is something similar to the following
 
@@ -67,10 +68,10 @@ The directory structure is something similar to the following
     \videos
     \images
     \flightData
-        flight_1.txt
-        flight_2.txt
+        flight_1.csv
+        flight_2.csv
              :
-        flight_n.txt
+        flight_n.csv
 </pre>
 
 
@@ -83,11 +84,14 @@ I also left in the test folder the HTML source, remember to full compress it oth
 
 The source file then must be compressed using in gzip and then putted in the camera [index](https://github.com/sebastiano123-c/src/camera_index.h).
 
+
+# TelemetryAnalysis
+TelemetryAnalysis provide a versatile graphic tool to visualize the SD readings.
+I provide a simple Python script and a executable file working in Windows. 
+
 # Roadmap
 There few things that must be done in the future:
-* create simple structure that the user can handle without any other modification on the code;
 * save video and photo;
-* make more flexible SD card reading
 
 # Author
 Sebastiano Cocchi

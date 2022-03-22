@@ -65,11 +65,15 @@ float PID_I_GAIN_ALTITUDE        = 0.01;                     //Gain setting for 
 float PID_D_GAIN_ALTITUDE        = 0.01;                     //Gain setting for the pitch D-controller. (0.0)
 
 // TELEMETRY
-float angleRoll = 1;
-float anglePitch = 2;
-float flightMode = 3;
-float batteryPercentage = 4;
-float altitudeMeasure = 5;
+float angleRoll = 10.3;
+float anglePitch = 1.2;
+uint8_t flightMode = 3;
+float batteryPercentage = 8.3;
+float altitudeMeasure = 130.4;
+int controllerRollInput = 1500;
+int controllerPitchInput = 1500;
+int controllerYawInput = 2000;
+int controllerThrottleInput = 1000;
 
 void setup()
 {
@@ -111,24 +115,28 @@ void writeDataTransfer(){
   Serial.printf("I'm sending...\n");
 
   // fill data structure before send
-  dataTransfer[0] = angleRoll;
-  dataTransfer[1] = anglePitch;
-  dataTransfer[2] = flightMode;
-  dataTransfer[3] = batteryPercentage;
-  dataTransfer[4] = altitudeMeasure;
+  const char* stringToPrint = "";
+  static char charSource[500];
+  char *ptr = charSource;
+
+  ptr += sprintf(ptr, "<%.6f,", angleRoll);
+  ptr += sprintf(ptr, "%.6f,", anglePitch);
+  ptr += sprintf(ptr, "%u,", flightMode);
+  ptr += sprintf(ptr, "%f,", batteryPercentage);
+  ptr += sprintf(ptr, "%f,", altitudeMeasure);
+  ptr += sprintf(ptr, "%i,", controllerRollInput);
+  ptr += sprintf(ptr, "%i,", controllerPitchInput);
+  ptr += sprintf(ptr, "%i,", controllerYawInput);
+  ptr += sprintf(ptr, "%i>", controllerThrottleInput);
+  ptr += 0;
+
+  stringToPrint = (const char*)charSource;
   
   // print in csv format
-  int i=0;
-  SUART.printf("<%.6f,", dataTransfer[i]);
-  for(i = 1; i < dataTransferSize - 1; i++){
-    SUART.printf("%.6f,", dataTransfer[i]);
-  }
-  SUART.printf("%.6f>\n", dataTransfer[dataTransferSize - 1]);
+  SUART.println(stringToPrint);
 
   // print
-  for(int i = 0; i < dataTransferSize; i++){
-    Serial.printf("%.6f\n", dataTransfer[i]);
-  }
+  Serial.println(stringToPrint);
 }
 
 

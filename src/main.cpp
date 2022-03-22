@@ -67,6 +67,8 @@ float throttleTrim              = 1;
 
 void setup() {
 
+  // Serial.begin(115200);
+
   beginUARTCOM();
 
   delay(40);
@@ -120,13 +122,25 @@ void setup() {
     s->set_brightness(s, 1); // up the brightness just a bit
     s->set_saturation(s, -2); // lower the saturation
   }
+
   // drop down frame size for higher initial frame rate
   s->set_framesize(s, FRAMESIZE_QVGA);
   
-  WiFi.softAP(ssid, password);
-  delay(30);
 
+  // begin wifi AP
+  WiFi.softAP(ssid, password);
+
+
+  // start camera web server
   startCameraServer();
+
+
+  // wait DroneIno
+  while(rollTrim - 1 > 1e-10 && pitchTrim - 1 > 1e-10 && yawTrim - 1 > 1e-10 && throttleTrim - 1 > 1e-10);
+
+
+  // initialize PID and sent back it to DroneIno
+  readConfigFile(SD_MMC);
 
 }
 

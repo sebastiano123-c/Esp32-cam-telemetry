@@ -4,6 +4,10 @@
 .vscode/launch.json
 .vscode/ipch
 
+# data
+/data
+telemetryAnalysis/telemetryAnalysis.cpp
+
 # test
 test/index.html
 # test/original-index.html
@@ -14,3 +18,9 @@ test/style.css
 test/charTest.cpp
 test/charTest.exe
 test/uart
+test/simpleplot.cpp
+test/simpleplot.exe
+
+# telemetryAnalysis
+test/openFileDialog.cpp
+test/openFileDialog.exe
