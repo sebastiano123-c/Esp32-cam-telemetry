@@ -73,7 +73,7 @@ while(1):
                 
                 
                 # battery curve linear fit
-                poptL = np.polyfit(index, battery, 1)
+                poptL = np.polyfit(throttleRec, battery, 1)
                 poly1d_fn = np.poly1d(poptL) 
 
 
@@ -111,14 +111,21 @@ while(1):
                 axs[1,1].set_ylabel("Voltage [V]")
                 axs[1,1].legend(loc='best')
 
+                # axs[1,1].set_title("Battery voltage with throttle")
+                # axs[1,1].plot(throttleRec, battery, label="battery")
+                # axs[1,1].plot(throttleRec, poly1d_fn(throttleRec), label='fit')
+                # axs[1,1].set_ylabel("Voltage [V]")
+                # axs[1,1].legend(loc='best')          
+
 
                 # statistics
                 print("\n\n", filename)
-                print(" - Battery:")
-                print("   > tot. batt. consumption: ", max(battery) - min(battery), " V")
-                print("   > batt. linear trend: ", poptL[0])
-                print(" - Altimeter:")
-                print("   > tot. ascension: ", max(altitude) - min(altitude), " m")
+                print("  - Battery:")
+                print("    > tot. batt. consumption: ", max(battery) - min(battery), " V")
+                print("    > batt. linear trend: m=%2.1e " % poptL[0], " b=%2.1e" % poptL[1])
+                print("  - Altimeter:")
+                print("    > tot. ascension: ", max(altitude) - min(altitude), " m")
+                print("")
                 
 
                 plt.show()
