@@ -8,7 +8,6 @@
     
 """
 
-from pickletools import optimize
 from tkinter import filedialog as fd
 import numpy as np
 import csv
