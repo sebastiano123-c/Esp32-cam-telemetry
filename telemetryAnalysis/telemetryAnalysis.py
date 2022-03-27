@@ -134,7 +134,6 @@ while(1):
                 # axs[1,1].set_ylabel("Voltage [V]")
                 # axs[1,1].legend(loc='best')          
 
-
                 # statistics
                 print("\n\n", filename)
                 print("  - Battery:")
@@ -144,7 +143,9 @@ while(1):
                 print("  - Altimeter:")
                 print("    > tot. ascension: ", max(altitude) - min(altitude), " m")
                 print("")
-    
+
+                plt.show()
+
                 # GPS print on Google maps               
                 gmap3 = gmplot.GoogleMapPlotter(latitude[0],
                                                 longitude[0], 17)
@@ -166,9 +167,6 @@ while(1):
                 webbrowser.get('edge').open(url, new=2)
 
                 print("\n\n  See GPS.html map in '"+GPSFolder+"' \n")
-
-
-                plt.show()
             
     else:
 
