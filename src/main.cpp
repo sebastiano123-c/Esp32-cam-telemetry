@@ -65,6 +65,13 @@ float pitchTrim                 = 1;
 float yawTrim                   = 1;
 float throttleTrim              = 1;
 
+
+//    (GPS TELEM.)
+float latitude                  = 0.; // @todo = NULL;
+float longitude                 = 0.; // @todo = NULL;
+
+
+
 void setup() {
 
   // Serial.begin(115200);

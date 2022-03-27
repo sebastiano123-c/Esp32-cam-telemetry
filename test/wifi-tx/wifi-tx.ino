@@ -74,6 +74,8 @@ int controllerRollInput = 1500;
 int controllerPitchInput = 1500;
 int controllerYawInput = 2000;
 int controllerThrottleInput = 1000;
+float latitudeGPS = 52.44;
+float longitudeGPS = 13.34;
 
 void setup()
 {
@@ -87,6 +89,8 @@ void loop()
   // simulate some telemetry parameter updates
   angleRoll = angleRoll + 0.01;
   anglePitch = anglePitch + 0.013;
+  latitudeGPS += latitudeGPS/1e7;
+  longitudeGPS += longitudeGPS/1e7;
 
   switch(sendTelemetryLoopN){
     case 1:                     
@@ -127,7 +131,9 @@ void writeDataTransfer(){
   ptr += sprintf(ptr, "%i,", controllerRollInput);
   ptr += sprintf(ptr, "%i,", controllerPitchInput);
   ptr += sprintf(ptr, "%i,", controllerYawInput);
-  ptr += sprintf(ptr, "%i>", controllerThrottleInput);
+  ptr += sprintf(ptr, "%i,", controllerThrottleInput);
+  ptr += sprintf(ptr, "%f,", latitudeGPS);
+  ptr += sprintf(ptr, "%f>", longitudeGPS);
   ptr += 0;
 
   stringToPrint = (const char*)charSource;

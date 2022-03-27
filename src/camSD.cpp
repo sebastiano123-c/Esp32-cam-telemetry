@@ -204,7 +204,10 @@ void writeDataLogFlight(fs::FS &fs){
             ptr+=sprintf(ptr, "%i,", (int) rollTrim);
             ptr+=sprintf(ptr, "%i,", (int) pitchTrim);
             ptr+=sprintf(ptr, "%i,", (int) yawTrim);
-            ptr+=sprintf(ptr, "%i", (int) throttleTrim);
+            ptr+=sprintf(ptr, "%i,", (int) throttleTrim);
+
+            ptr+=sprintf(ptr, "%f,", latitude);
+            ptr+=sprintf(ptr, "%f", longitude);
 
             *ptr++ = '\n';
             *ptr++ = 0;

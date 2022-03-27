@@ -39,7 +39,14 @@ Connect the RX1 (GPIO 26) of the esp32 to the TX0 (GPIO 1) of esp32-cam, and TX1
 Upload the [wifi-tx](https://github.com/sebastiano123-c/Esp32-cam-telemetry/test/wifi-tx/wifi-tx.ino) sketch on your transmitter board.
 
 # Telemetry
-In this code I use variables: roll, pitch, flight mode, altitude, battery and the four channels of the controller.
+In this code I use the following variables: 
+- roll
+- pitch
+- flight mode
+- altitude
+- battery
+- four channels of the controller (_e.g._ roll, pitch, throttle, yaw)
+- GPS latitude and longitude.
 These values are updated at the every 100ms in the browser.
 
 # Talk with drone
@@ -87,7 +94,8 @@ The source file then must be compressed using in gzip and then putted in the cam
 
 # TelemetryAnalysis
 TelemetryAnalysis provide a versatile graphic tool to visualize the SD readings.
-I provide a simple Python script and a executable file working in Windows. 
+In [telemetryAnalysis](https://github.com/sebastiano123-c/Esp32-cam-telemetry/tree/master/telemetryAnalysis) folder I put a simple Python script and an executable file working in Windows.
+The python script also shows you the map with the GPS readings. 
 
 # Roadmap
 There few things that must be done in the future:

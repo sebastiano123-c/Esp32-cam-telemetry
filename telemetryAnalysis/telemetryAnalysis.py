@@ -10,8 +10,19 @@
 
 from tkinter import filedialog as fd
 import numpy as np
-import csv
+import csv, os
 import matplotlib.pyplot as plt
+import gmplot                                    # plot on Google maps
+import webbrowser
+
+# create folder for GPS
+GPSFolder = "data/GPS"
+if not os.path.exists(GPSFolder):
+    os.makedirs(GPSFolder)
+
+# create register for edge 
+edge_path="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
 
 # main
@@ -34,6 +45,8 @@ while(1):
     pitchRec = []
     yawRec = []
     throttleRec = []
+    latitude = []
+    longitude = []
 
     # if file is csv
     if filename[-3:] == "csv":
@@ -68,12 +81,16 @@ while(1):
                         pitchRec.append(row[6])
                         yawRec.append(row[7])
                         throttleRec.append(row[8])
+
+                        if (row[9] != 0. and row[10] != 0.):# if there is no GPS data
+                            latitude.append(row[9])
+                            longitude.append(row[10])
                         
                     tmp = tmp + 1
                 
                 
                 # battery curve linear fit
-                poptL = np.polyfit(throttleRec, battery, 1)
+                poptL = np.polyfit(index, battery, 1)
                 poly1d_fn = np.poly1d(poptL) 
 
 
@@ -83,18 +100,18 @@ while(1):
 
                 # axs[0,0].set_ylim([-45, 45])
                 axs[0,0].set_title("Roll/pitch angles")
-                axs[0,0].plot(index, roll, label="roll")            
-                axs[0,0].plot(index, pitch, label="pitch")
+                axs[0,0].plot(index, roll, "b-", label="roll")            
+                axs[0,0].plot(index, pitch, "y-",label="pitch")
                 axs[0,0].set_ylabel("Angle [°]")
                 axs[0,0].legend(loc='best')
 
 
                 axs[1,0].set_ylim([920, 2080])
                 axs[1,0].set_title("Receiver channels pulse width")
-                axs[1,0].plot(index, rollRec, label="roll rec.")
-                axs[1,0].plot(index, pitchRec, label="pitch rec.")
-                axs[1,0].plot(index, yawRec, label="yaw rec.")
-                axs[1,0].plot(index, throttleRec, label="throttle rec.")
+                axs[1,0].plot(index, rollRec, "-.", alpha=0.6, label="roll rec.")
+                axs[1,0].plot(index, pitchRec, "-.", alpha=0.6, label="pitch rec.")
+                axs[1,0].plot(index, yawRec, "-.", alpha=0.6, label="yaw rec.")
+                axs[1,0].plot(index, throttleRec, "-.", alpha=0.6, label="throttle rec.")
                 axs[1,0].set_ylabel("time [us]")
                 axs[1,0].legend(loc='best')
 
@@ -122,14 +139,37 @@ while(1):
                 print("\n\n", filename)
                 print("  - Battery:")
                 print("    > tot. batt. consumption: ", max(battery) - min(battery), " V")
+                print("    > tot. batt. consumption: ", max(battery) , " V")
                 print("    > batt. linear trend: m=%2.1e " % poptL[0], " b=%2.1e" % poptL[1])
                 print("  - Altimeter:")
                 print("    > tot. ascension: ", max(altitude) - min(altitude), " m")
                 print("")
+    
+                # GPS print on Google maps               
+                gmap3 = gmplot.GoogleMapPlotter(latitude[0],
+                                                longitude[0], 17)
                 
+                # scatter method of map object 
+                # scatter points on the google map
+                gmap3.scatter( latitude, longitude, '#FF0000',
+                                            size = 1, marker = False )
+                
+                # Plot method Draw a line in
+                # between given coordinates
+                gmap3.plot(latitude, longitude, 
+                        'cornflowerblue', edge_width = 1)
+                
+                gmap3.draw( GPSFolder+"/GPS.html" )
+
+                # open an HTML file on my own (Windows) computer
+                url = "file://"+os.path.realpath(GPSFolder+"/GPS.html")
+                webbrowser.get('edge').open(url, new=2)
+
+                print("\n\n  See GPS.html map in '"+GPSFolder+"' \n")
+
 
                 plt.show()
-
+            
     else:
 
         print("\nFile is not .csv")

@@ -44,10 +44,13 @@ extern float rollTrim;
 extern float pitchTrim;
 extern float yawTrim;
 extern float throttleTrim;
-#define flightDataHeaderCSV "roll, pitch, flightMode, battery, altitude, rec. roll, rec. pitch, rec. yaw, rec. throttle\n"
+extern float latitude;
+extern float longitude;
+
+#define flightDataHeaderCSV "roll, pitch, flightMode, battery, altitude, rec. roll, rec. pitch, rec. yaw, rec. throttle, lat, lon\n"
 
 //           (UART)                                      
-const int dataTransferSize = 9;
+const int dataTransferSize = 11;
 const int dataControllerSize = 12;
 
 

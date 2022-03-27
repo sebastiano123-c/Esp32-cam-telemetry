@@ -117,6 +117,9 @@ void readDataTransfer(){
         pitchTrim         = dataTransfer[6];
         yawTrim           = dataTransfer[7];
         throttleTrim      = dataTransfer[8];
+
+        latitude          = dataTransfer[9];
+        longitude         = dataTransfer[10];
         
         //  // print in csv format   
         //  for(int i = 0; i < dataTransferSize; i++){
