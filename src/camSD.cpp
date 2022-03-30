@@ -192,7 +192,7 @@ void writeDataLogFlight(fs::FS &fs){
             static char stringToPrint[1024];
 
             char * ptr = stringToPrint;
-            *ptr++ = ' ';
+            // *ptr++ = ' ';
 
             // telemetry
             ptr+=sprintf(ptr, "%.6f,", rollAngle);
@@ -206,8 +206,9 @@ void writeDataLogFlight(fs::FS &fs){
             ptr+=sprintf(ptr, "%i,", (int) yawTrim);
             ptr+=sprintf(ptr, "%i,", (int) throttleTrim);
 
-            ptr+=sprintf(ptr, "%f,", latitude);
-            ptr+=sprintf(ptr, "%f", longitude);
+            ptr+=sprintf(ptr, "%.7f,", latitude);
+            ptr+=sprintf(ptr, "%.7f,", longitude);
+            ptr+=sprintf(ptr, "%s", timeUTC);
 
             *ptr++ = '\n';
             *ptr++ = 0;

@@ -28,7 +28,7 @@
  * 
  */
 
-#include<HardwareSerial.h>
+#include <HardwareSerial.h>
 
 HardwareSerial SUART(1); 
 
@@ -76,6 +76,7 @@ int controllerYawInput = 2000;
 int controllerThrottleInput = 1000;
 float latitudeGPS = 52.44;
 float longitudeGPS = 13.34;
+const char* timeUTC = "12:02:12.33";
 
 void setup()
 {
@@ -87,10 +88,11 @@ void setup()
 void loop()
 {
   // simulate some telemetry parameter updates
-  angleRoll = angleRoll + 0.01;
-  anglePitch = anglePitch + 0.013;
+  angleRoll += 0.01;
+  anglePitch += 0.013;
   latitudeGPS += latitudeGPS/1e7;
   longitudeGPS += longitudeGPS/1e7;
+
 
   switch(sendTelemetryLoopN){
     case 1:                     
@@ -133,7 +135,8 @@ void writeDataTransfer(){
   ptr += sprintf(ptr, "%i,", controllerYawInput);
   ptr += sprintf(ptr, "%i,", controllerThrottleInput);
   ptr += sprintf(ptr, "%f,", latitudeGPS);
-  ptr += sprintf(ptr, "%f>", longitudeGPS);
+  ptr += sprintf(ptr, "%f,", longitudeGPS);
+  ptr += sprintf(ptr, "%s", timeUTC);
   ptr += 0;
 
   stringToPrint = (const char*)charSource;

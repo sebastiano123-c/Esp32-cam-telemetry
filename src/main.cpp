@@ -69,7 +69,7 @@ float throttleTrim              = 1;
 //    (GPS TELEM.)
 float latitude                  = 0.; // @todo = NULL;
 float longitude                 = 0.; // @todo = NULL;
-
+const char* timeUTC             = "";
 
 
 void setup() {
@@ -142,8 +142,11 @@ void setup() {
   startCameraServer();
 
 
-  // wait DroneIno
-  while(rollTrim - 1 > 1e-10 && pitchTrim - 1 > 1e-10 && yawTrim - 1 > 1e-10 && throttleTrim - 1 > 1e-10);
+  // wait DroneIno to start sending data
+  while( abs(rollTrim - 1) < 1e-10 && abs(pitchTrim - 1) < 1e-10 && abs(yawTrim - 1) < 1e-10 && abs(throttleTrim - 1) < 1e-10){
+    readDataTransfer();
+    delay(10);
+  }
 
 
   // initialize PID and sent back it to DroneIno
@@ -153,6 +156,7 @@ void setup() {
 
 void loop() {
 
+  // read the incoming message from DroneIno
   readDataTransfer();
 
   // update flightData

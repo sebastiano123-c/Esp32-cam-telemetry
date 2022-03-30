@@ -13,7 +13,7 @@
 
 float dataController[dataControllerSize];
 
-float dataTransfer[dataTransferSize];
+String dataTransfer[dataTransferSize];
 
 // serial
 HardwareSerial SUART(1); 
@@ -100,26 +100,27 @@ void readDataTransfer(){
 
         // substring the data and convert it to floats
         i = 0;
-        dataTransfer[i] = str.substring(posStart, indices[i]).toFloat();
+        dataTransfer[i] = str.substring(posStart, indices[i]);
         for( i = 1; i < dataTransferSize - 1; i++){
-            dataTransfer[i] = str.substring(indices[i-1] + 1, indices[i]).toFloat();
+            dataTransfer[i] = str.substring(indices[i-1] + 1, indices[i]);
         }
-        dataTransfer[dataTransferSize - 1] = str.substring(indices[dataTransferSize - 2] + 1 ).toFloat();
+        dataTransfer[dataTransferSize - 1] = str.substring(indices[dataTransferSize - 2] + 1 );
         
         // fill data structure after receiving
-        rollAngle         = dataTransfer[0];
-        pitchAngle        = dataTransfer[1];
-        flightMode        = dataTransfer[2];
-        batteryPercentage = dataTransfer[3];
-        altitudeMeasure   = dataTransfer[4];
+        rollAngle         = dataTransfer[0].toFloat();
+        pitchAngle        = dataTransfer[1].toFloat();
+        flightMode        = dataTransfer[2].toFloat();
+        batteryPercentage = dataTransfer[3].toFloat();
+        altitudeMeasure   = dataTransfer[4].toFloat();
 
-        rollTrim          = dataTransfer[5];
-        pitchTrim         = dataTransfer[6];
-        yawTrim           = dataTransfer[7];
-        throttleTrim      = dataTransfer[8];
+        rollTrim          = dataTransfer[5].toFloat();
+        pitchTrim         = dataTransfer[6].toFloat();
+        yawTrim           = dataTransfer[7].toFloat();
+        throttleTrim      = dataTransfer[8].toFloat();
 
-        latitude          = dataTransfer[9];
-        longitude         = dataTransfer[10];
+        latitude          = dataTransfer[9].toFloat();
+        longitude         = dataTransfer[10].toFloat();
+        timeUTC           = dataTransfer[11].c_str();
         
         //  // print in csv format   
         //  for(int i = 0; i < dataTransferSize; i++){

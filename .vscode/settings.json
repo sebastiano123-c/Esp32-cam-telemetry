@@ -42,6 +42,7 @@
         "typeinfo": "cpp",
         "ios": "cpp",
         "iostream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "chrono": "cpp"
     }
 }

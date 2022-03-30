@@ -15,11 +15,11 @@ test/full-compressed-index.html
 test/script.js
 test/style.css
 
-test/charTest.cpp
-test/charTest.exe
+test/charTest.*
 test/uart
-test/simpleplot.cpp
-test/simpleplot.exe
+test/simpleplot.*
+
+test/timerTest.*
 
 # telemetryAnalysis
 test/openFileDialog.cpp

@@ -53,7 +53,7 @@ In the [main](https://github.com/sebastiano123-c/Esp32-cam-telemetry/blob/master
 - altitude
 - battery
 - four channels of the controller (_e.g._ roll, pitch, throttle, yaw)
-- GPS latitude and longitude.
+- GPS latitude, longitude and UTC time.
 The browser update rate is about 100ms.
 
 # Talk with the drone
