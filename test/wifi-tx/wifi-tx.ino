@@ -19,6 +19,8 @@
  *  @param dataTransferSize   elements number of telemetry data to sent
  *  @param dataControllerSize elements number of PID parameters to receive
  * 
+ * @todo Increment in some way the timeUTC variable (using for instance the time.h lib, how cares if starts in 1980...)
+ * 
  * @version 0.1
  * @date 2022-02-23
  * 
