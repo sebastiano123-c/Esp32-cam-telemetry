@@ -24,327 +24,382 @@ section.main{display:flex}
 section#buttons{max-width: 350px;display:flex;flex-wrap:nowrap;justify-content:space-between}
 figure{padding:0;margin:0;-webkit-margin-before:0;margin-block-start:0;-webkit-margin-after:0;margin-block-end:0;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0}
 figure img{display:block;width:100%;height:auto;border-radius:4px;margin-top:8px}
-@media (min-width: 800px) and (orientation:landscape){#content{display:flex;flex-wrap:nowrap;align-items:stretch}figure img{display:block;max-width:100%;max-height:calc(100vh - 40px);width:auto;height:auto}figure{padding:0;margin:0;-webkit-margin-before:0;margin-block-start:0;-webkit-margin-after:0;margin-block-end:0;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0}}
-.input-group{display:flex;flex-wrap:nowrap;line-height:22px;margin:5px 0}.input-group>label{display:inline-block;padding-right:10px;min-width:47%}.input-group input,.input-group select{flex-grow:1}.range-max,.range-min{display:inline-block;padding:0 5px}button{display:block;margin:5px;padding:0 12px;border:0;line-height:28px;cursor:pointer;color:#fff;background:#ff3034;border-radius:5px;font-size:16px;outline:0}button:hover{background:#ff494d}button:active{background:#f21c21}button.disabled{cursor:default;background:#a0a0a0}input[type=range]{-webkit-appearance:none;width:100%;height:22px;background:#363636;cursor:pointer;margin:0}input[type=range]:focus{outline:0}input[type=range]::-webkit-slider-runnable-track{width:100%;height:2px;cursor:pointer;background:#EFEFEF;border-radius:0;border:0 solid #EFEFEF}input[type=range]::-webkit-slider-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer;-webkit-appearance:none;margin-top:-11.5px}input[type=range]:focus::-webkit-slider-runnable-track{background:#EFEFEF}input[type=range]::-moz-range-track{width:100%;height:2px;cursor:pointer;background:#EFEFEF;border-radius:0;border:0 solid #EFEFEF}input[type=range]::-moz-range-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer}input[type=range]::-ms-track{width:100%;height:2px;cursor:pointer;background:0 0;border-color:transparent;color:transparent}input[type=range]::-ms-fill-lower{background:#EFEFEF;border:0 solid #EFEFEF;border-radius:0}input[type=range]::-ms-fill-upper{background:#EFEFEF;border:0 solid #EFEFEF;border-radius:0}input[type=range]::-ms-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer;height:2px}input[type=range]:focus::-ms-fill-lower{background:#EFEFEF}input[type=range]:focus::-ms-fill-upper{background:#363636}.switch{display:block;position:relative;line-height:22px;font-size:16px;height:22px}.switch input{outline:0;opacity:0;width:0;height:0}.slider{width:50px;height:22px;border-radius:22px;cursor:pointer;background-color:grey}.slider,.slider:before{display:inline-block;transition:.4s}.slider:before{position:relative;content:"";border-radius:50%;height:16px;width:16px;left:4px;top:3px;background-color:#fff}input:checked+.slider{background-color:#ff3034}input:checked+.slider:before{-webkit-transform:translateX(26px);transform:translateX(26px)}select{border:1px solid #363636;font-size:14px;height:22px;outline:0;border-radius:5px}.image-container{position:relative;min-width:160px}.close{position:absolute;right:5px;top:5px;background:#ff3034;width:16px;height:16px;border-radius:100px;color:#fff;text-align:center;line-height:18px;cursor:pointer}.hidden{display:none}.cards-telemetry-left{float:left;position:absolute;left:0;top:0;z-index:1000;color:#fff;background-color:rgba(255,255,255,0.2);padding:5px;font-weight:700}.cards-telemetry-right{float:right;position:absolute;right:0;top:0;z-index:1000;color:#fff;background-color:rgba(255,255,255,0.2);padding:5px;font-weight:700}.pid-label{display:inline-block;padding-right:10px;min-width:132px}.pid-input{border:1px solid #363636;font-size:14px;width:60px;height:22px;outline:0;border-radius:5px;flex-grow:1}input[type=text].default-action{max-width: 100px;}
-#drone-ino{font-size: 5px;text-align: right;max-width: 200px;}.page-header{display: flex;}#logo{display: flex;vertical-align: center;padding-inline: 2px;}.menus{margin-right: 10px;}
+
+@media (min-width: 800px) and (orientation:landscape){
+    #content{
+        display:flex;flex-wrap:nowrap;align-items:stretch
+    }
+    figure img{
+        display:block;max-width:100%;max-height:calc(100vh - 40px);width:auto;height:auto
+    }
+    figure{
+        padding:0;margin:0;-webkit-margin-before:0;margin-block-start:0;-webkit-margin-after:0;margin-block-end:0;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0
+    }
+}
+
+.input-group{display:flex;flex-wrap:nowrap;line-height:22px;margin:5px 0}
+.input-group>label{display:inline-block;padding-right:10px;min-width:47%}
+.input-group input,.input-group select{flex-grow:1}
+.range-max,.range-min{display:inline-block;padding:0 5px}
+
+button{display:block;margin:5px;padding:0 12px;border:0;line-height:28px;cursor:pointer;color:#fff;background:#ff3034;border-radius:5px;font-size:16px;outline:0}
+button:hover{background:#ff494d}
+button:active{background:#f21c21}
+button.disabled{cursor:default;background:#a0a0a0}
+
+input[type=range]{-webkit-appearance:none;width:100%;height:22px;background:#363636;cursor:pointer;margin:0}
+input[type=range]:focus{outline:0}
+input[type=range]::-webkit-slider-runnable-track{width:100%;height:2px;cursor:pointer;background:#EFEFEF;border-radius:0;border:0 solid #EFEFEF}
+input[type=range]::-webkit-slider-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer;-webkit-appearance:none;margin-top:-11.5px}
+input[type=range]:focus::-webkit-slider-runnable-track{background:#EFEFEF}
+input[type=range]::-moz-range-track{width:100%;height:2px;cursor:pointer;background:#EFEFEF;border-radius:0;border:0 solid #EFEFEF}
+input[type=range]::-moz-range-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer}
+input[type=range]::-ms-track{width:100%;height:2px;cursor:pointer;background:0 0;border-color:transparent;color:transparent}
+input[type=range]::-ms-fill-lower{background:#EFEFEF;border:0 solid #EFEFEF;border-radius:0}
+input[type=range]::-ms-fill-upper{background:#EFEFEF;border:0 solid #EFEFEF;border-radius:0}
+input[type=range]::-ms-thumb{border:1px solid rgba(0,0,30,0);height:22px;width:22px;border-radius:50px;background:#ff3034;cursor:pointer;height:2px}
+input[type=range]:focus::-ms-fill-lower{background:#EFEFEF}
+input[type=range]:focus::-ms-fill-upper{background:#363636}
+    .switch{display:block;position:relative;line-height:22px;font-size:16px;height:22px}
+    .switch input{outline:0;opacity:0;width:0;height:0}
+    .slider{width:50px;height:22px;border-radius:22px;cursor:pointer;background-color:grey}
+    .slider,.slider:before{display:inline-block;transition:.4s}
+    .slider:before{position:relative;content:"";border-radius:50%;height:16px;width:16px;left:4px;top:3px;background-color:#fff}
+    input:checked+.slider{background-color:#ff3034}
+    input:checked+.slider:before{-webkit-transform:translateX(26px);transform:translateX(26px)}
+    select{border:1px solid #363636;font-size:14px;height:22px;outline:0;border-radius:5px}
+    .image-container{position:relative;min-width:160px}
+    .close{position:absolute;right:5px;top:5px;background:#ff3034;width:16px;height:16px;border-radius:100px;color:#fff;text-align:center;line-height:18px;cursor:pointer}
+    .hidden{display:none}
+    .cards-telemetry-left{float:left;position:absolute;left:0;top:0;z-index:1000;color:#fff;background-color:rgba(255,255,255,0.2);padding:5px;font-weight:700}
+    .cards-telemetry-right{float:right;position:absolute;right:0;top:0;z-index:1000;color:#fff;background-color:rgba(255,255,255,0.2);padding:5px;font-weight:700}
+    .pid-label{display:inline-block;padding-right:10px;min-width:132px}
+    .pid-input{border:1px solid #363636;font-size:14px;width:60px;height:22px;outline:0;border-radius:5px;flex-grow:1}
+input[type=text].default-action{max-width: 100px;}
+
+#drone-ino{font-size: 5px;text-align: right;max-width: 200px;}
+.page-header{display: flex;}
+#logo{display: flex;vertical-align: center;padding-inline: 2px;}
+.menus{margin-right: 10px;}
+
         </style>
     </head>
     <body>
-        <section class="main">
-                <section id="buttons">
-                    <button id="get-still">Get Still</button>
-                    <button id="toggle-stream">Start Stream</button>
-                    <button id="face_enroll" class="disabled" disabled="disabled">Enroll Face</button>
-                </section>
-            <div id="logo">
-                <label class="menus" for="nav-toggle-cb" id="nav-toggle">&#9776;&nbsp;&nbsp;Camera settings</label><label class="menus" for="nav-toggle-pid" id="nav-pid">&#9776;&nbsp;&nbsp;PID settings</label>
-            </div>
-            <div id="content">
-                <div id="sidebar">
-                    <!-- PID -->
-                    <input type="checkbox" id="nav-toggle-pid" checked="checked">
-                    <nav id="menu-pid">
-                        <div class="input-group">
-                            <label class="pid-label">pitch/roll P:</label>
-                            <input class="default-action" type="text" id="rollPInput" name="rollP">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">pitch/roll I:</label>
-                            <input class="default-action" type="text" id="rollIInput" name="rollI">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">pitch/roll D:</label>
-                            <input class="default-action" type="text" id="rollDInput" name="rollD">
-                        </div>
-                        <hr>
-                        <div class="input-group">
-                            <label class="pid-label">yaw P:</label> 
-                            <input class="default-action" type="text" id="yawPInput" name="yawP">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">yaw I:</label>
-                            <input class="default-action" type="text" id="yawIInput" name="yawI">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">yaw D:</label>
-                            <input class="default-action" type="text" id="yawDInput" name="yawD">
-                        </div>
-                        <hr>
-                        <div class="input-group">
-                            <label class="pid-label">pitch/roll filter (&#37;):</label>
-                            <input class="default-action" type="text" id="filterPitchRollInput" name="filterPitchRoll">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">roll correction (&deg;):</label>
-                            <input class="default-action" type="text" id="correctionRollInput" name="correctionRoll">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">pitch correction (&deg;):</label>
-                            <input class="default-action" type="text" id="correctionPitchInput" name="correctionPitch">
-                        </div>
-                        <hr>
-                        <div class="input-group">
-                            <label class="pid-label">altitude P:</label>
-                            <input class="default-action" type="text" id="altitudePInput" name="altitudeP">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">altitude I:</label>
-                            <input class="default-action" type="text" id="altitudeIInput" name="altitudeI">
-                        </div>
-                        <div class="input-group">
-                            <label class="pid-label">altitude D:</label>
-                            <input class="default-action" type="text" id="altitudeDInput" name="altitudeD">
-                        </div>
-                    </nav>
-                    <!-- CAMERA -->
-                    <input type="checkbox" id="nav-toggle-cb" checked="checked">
-                    <nav id="menu">
-                        <div class="input-group" id="framesize-group">
-                            <label for="framesize">Resolution</label>
-                            <select id="framesize" class="default-action">
-                                <option value="10">UXGA(1600x1200)</option>
-                                <option value="9" selected="selected">SXGA(1280x1024)</option>
-                                <option value="8">XGA(1024x768)</option>
-                                <option value="7">SVGA(800x600)</option>
-                                <option value="6">VGA(640x480)</option>
-                                <option value="5">CIF(400x296)</option>
-                                <option value="4">QVGA(320x240)</option>
-                                <option value="3">HQVGA(240x176)</option>
-                                <option value="0">QQVGA(160x120)</option>
-                            </select>
-                        </div>
-                        <div class="input-group" id="quality-group">
-                            <label for="quality">Quality</label>
-                            <div class="range-min">10</div>
-                            <input type="range" id="quality" min="10" max="63" value="10" class="default-action">
-                            <div class="range-max">63</div>
-                        </div>
-                        <div class="input-group" id="brightness-group">
-                            <label for="brightness">Brightness</label>
-                            <div class="range-min">-2</div>
-                            <input type="range" id="brightness" min="-2" max="2" value="0" class="default-action">
-                            <div class="range-max">2</div>
-                        </div>
-                        <div class="input-group" id="contrast-group">
-                            <label for="contrast">Contrast</label>
-                            <div class="range-min">-2</div>
-                            <input type="range" id="contrast" min="-2" max="2" value="0" class="default-action">
-                            <div class="range-max">2</div>
-                        </div>
-                        <div class="input-group" id="saturation-group">
-                            <label for="saturation">Saturation</label>
-                            <div class="range-min">-2</div>
-                            <input type="range" id="saturation" min="-2" max="2" value="0" class="default-action">
-                            <div class="range-max">2</div>
-                        </div>
-                        <div class="input-group" id="special_effect-group">
-                            <label for="special_effect">Special Effect</label>
-                            <select id="special_effect" class="default-action">
-                                <option value="0" selected="selected">No Effect</option>
-                                <option value="1">Negative</option>
-                                <option value="2">Grayscale</option>
-                                <option value="3">Red Tint</option>
-                                <option value="4">Green Tint</option>
-                                <option value="5">Blue Tint</option>
-                                <option value="6">Sepia</option>
-                            </select>
-                        </div>
-                        <div class="input-group" id="awb-group">
-                            <label for="awb">AWB</label>
-                            <div class="switch">
-                                <input id="awb" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="awb"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="awb_gain-group">
-                            <label for="awb_gain">AWB Gain</label>
-                            <div class="switch">
-                                <input id="awb_gain" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="awb_gain"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="wb_mode-group">
-                            <label for="wb_mode">WB Mode</label>
-                            <select id="wb_mode" class="default-action">
-                                <option value="0" selected="selected">Auto</option>
-                                <option value="1">Sunny</option>
-                                <option value="2">Cloudy</option>
-                                <option value="3">Office</option>
-                                <option value="4">Home</option>
-                            </select>
-                        </div>
-                        <div class="input-group" id="aec-group">
-                            <label for="aec">AEC SENSOR</label>
-                            <div class="switch">
-                                <input id="aec" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="aec"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="aec2-group">
-                            <label for="aec2">AEC DSP</label>
-                            <div class="switch">
-                                <input id="aec2" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="aec2"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="ae_level-group">
-                            <label for="ae_level">AE Level</label>
-                            <div class="range-min">-2</div>
-                            <input type="range" id="ae_level" min="-2" max="2" value="0" class="default-action">
-                            <div class="range-max">2</div>
-                        </div>
-                        <div class="input-group" id="aec_value-group">
-                            <label for="aec_value">Exposure</label>
-                            <div class="range-min">0</div>
-                            <input type="range" id="aec_value" min="0" max="1200" value="204" class="default-action">
-                            <div class="range-max">1200</div>
-                        </div>
-                        <div class="input-group" id="agc-group">
-                            <label for="agc">AGC</label>
-                            <div class="switch">
-                                <input id="agc" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="agc"></label>
-                            </div>
-                        </div>
-                        <div class="input-group hidden" id="agc_gain-group">
-                            <label for="agc_gain">Gain</label>
-                            <div class="range-min">1x</div>
-                            <input type="range" id="agc_gain" min="0" max="30" value="5" class="default-action">
-                            <div class="range-max">31x</div>
-                        </div>
-                        <div class="input-group" id="gainceiling-group">
-                            <label for="gainceiling">Gain Ceiling</label>
-                            <div class="range-min">2x</div>
-                            <input type="range" id="gainceiling" min="0" max="6" value="0" class="default-action">
-                            <div class="range-max">128x</div>
-                        </div>
-                        <div class="input-group" id="bpc-group">
-                            <label for="bpc">BPC</label>
-                            <div class="switch">
-                                <input id="bpc" type="checkbox" class="default-action">
-                                <label class="slider" for="bpc"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="wpc-group">
-                            <label for="wpc">WPC</label>
-                            <div class="switch">
-                                <input id="wpc" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="wpc"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="raw_gma-group">
-                            <label for="raw_gma">Raw GMA</label>
-                            <div class="switch">
-                                <input id="raw_gma" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="raw_gma"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="lenc-group">
-                            <label for="lenc">Lens Correction</label>
-                            <div class="switch">
-                                <input id="lenc" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="lenc"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="hmirror-group">
-                            <label for="hmirror">H-Mirror</label>
-                            <div class="switch">
-                                <input id="hmirror" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="hmirror"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="vflip-group">
-                            <label for="vflip">V-Flip</label>
-                            <div class="switch">
-                                <input id="vflip" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="vflip"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="dcw-group">
-                            <label for="dcw">DCW (Downsize EN)</label>
-                            <div class="switch">
-                                <input id="dcw" type="checkbox" class="default-action" checked="checked">
-                                <label class="slider" for="dcw"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="colorbar-group">
-                            <label for="colorbar">Color Bar</label>
-                            <div class="switch">
-                                <input id="colorbar" type="checkbox" class="default-action">
-                                <label class="slider" for="colorbar"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="face_detect-group">
-                            <label for="face_detect">Face Detection</label>
-                            <div class="switch">
-                                <input id="face_detect" type="checkbox" class="default-action">
-                                <label class="slider" for="face_detect"></label>
-                            </div>
-                        </div>
-                        <div class="input-group" id="face_recognize-group">
-                            <label for="face_recognize">Face Recognition</label>
-                            <div class="switch">
-                                <input id="face_recognize" type="checkbox" class="default-action">
-                                <label class="slider" for="face_recognize"></label>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-                <!-- STREAMING -->
-                <figure>
-                    <div id="stream-container" class="image-container hidden">
-                        <div class="cards-telemetry-left">
-                            <div class="input-group">
-                              <p> pitch: </p>
-                              <p><span class="reading" id="pitchAngle"></span> &deg;</p>
-                            </div>
-                            <div class="input-group">
-                              <p> roll: </p>
-                              <p><span class="reading" id="rollAngle"></span> &deg;</p>
-                            </div>
-                            <div class="input-group">
-                                <p> altitude: </p>
-                                <p><span class="reading" id="altitude"></span> m</p>
-                            </div>
-                        </div>
-                        <div class="cards-telemetry-right">
-                            <div class="input-group">
-                                <p> battery: </p>
-                                <p><span class="reading" id="battery"></span> V</p>
-                            </div>
-                            <div class="input-group">
-                              <p> flight mode: </p>
-                              <p><span class="reading" id="flightMode"></span></p>
-                            </div>
-                            <div class="input-group">
-                                <p> GPS: <span class="reading" id="gps"></span> &deg;</p>
-                            </div>
-                            <!-- <pre id="drone-ino">
-                                |                      |   
-                                |                      |   
-                            ---4---                ---1---
-                                |\                    /|   
-                                | \                  / |   
-                                \                /      
-                                    ---------------       
-                                    |  DRONEINO!  |       
-                                    ---------------       
-                                /                \      
-                                | /                  \ |   
-                                |/                    \|   
-                            ---3---                ---2---
-                                |                      |   
-                                |                      |   
-                            </pre> -->
-                        </div>
-                        <div class="close" id="close-stream">x</div>
-                        <img id="stream" src="https://media.istockphoto.com/photos/straight-down-above-tall-towers-rising-over-austin-texas-picture-id1320415956?s=612x612">
+    <section class="main">
+            <section id="buttons">
+                <button id="get-still">Get Still</button>
+                <button id="toggle-stream">Start Stream</button>
+                <button id="face_enroll" class="disabled" disabled="disabled">Enroll Face</button>
+            </section>
+        <div id="logo">
+            <label class="menus" for="nav-toggle-cb" id="nav-toggle">&#9776;&nbsp;&nbsp;Camera settings</label><label class="menus" for="nav-toggle-pid" id="nav-pid">&#9776;&nbsp;&nbsp;PID settings</label>
+        </div>
+        <div id="content">
+            <div id="sidebar">
+                <!-- PID -->
+                <input type="checkbox" id="nav-toggle-pid" checked="checked">
+                <nav id="menu-pid">
+                    <div class="input-group">
+                        <label class="pid-label">pitch/roll P:</label>
+                        <input class="default-action" type="text" id="rollPInput" name="rollP">
                     </div>
-                </figure>
+                    <div class="input-group">
+                        <label class="pid-label">pitch/roll I:</label>
+                        <input class="default-action" type="text" id="rollIInput" name="rollI">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">pitch/roll D:</label>
+                        <input class="default-action" type="text" id="rollDInput" name="rollD">
+                    </div>
+                    <hr>
+                    <div class="input-group">
+                        <label class="pid-label">yaw P:</label> 
+                        <input class="default-action" type="text" id="yawPInput" name="yawP">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">yaw I:</label>
+                        <input class="default-action" type="text" id="yawIInput" name="yawI">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">yaw D:</label>
+                        <input class="default-action" type="text" id="yawDInput" name="yawD">
+                    </div>
+                    <hr>
+                    <div class="input-group">
+                        <label class="pid-label">pitch/roll filter (&#37;):</label>
+                        <input class="default-action" type="text" id="filterPitchRollInput" name="filterPitchRoll">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">roll correction (&deg;):</label>
+                        <input class="default-action" type="text" id="correctionRollInput" name="correctionRoll">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">pitch correction (&deg;):</label>
+                        <input class="default-action" type="text" id="correctionPitchInput" name="correctionPitch">
+                    </div>
+                    <hr>
+                    <div class="input-group">
+                        <label class="pid-label">altitude P:</label>
+                        <input class="default-action" type="text" id="altitudePInput" name="altitudeP">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">altitude I:</label>
+                        <input class="default-action" type="text" id="altitudeIInput" name="altitudeI">
+                    </div>
+                    <div class="input-group">
+                        <label class="pid-label">altitude D:</label>
+                        <input class="default-action" type="text" id="altitudeDInput" name="altitudeD">
+                    </div>
+                </nav>
+                <!-- CAMERA -->
+                <input type="checkbox" id="nav-toggle-cb" checked="checked">
+                <nav id="menu">
+                    <div class="input-group" id="framesize-group">
+                        <label for="framesize">Resolution</label>
+                        <select id="framesize" class="default-action">
+                            <option value="10">UXGA(1600x1200)</option>
+                            <option value="9" selected="selected">SXGA(1280x1024)</option>
+                            <option value="8">XGA(1024x768)</option>
+                            <option value="7">SVGA(800x600)</option>
+                            <option value="6">VGA(640x480)</option>
+                            <option value="5">CIF(400x296)</option>
+                            <option value="4">QVGA(320x240)</option>
+                            <option value="3">HQVGA(240x176)</option>
+                            <option value="0">QQVGA(160x120)</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="quality-group">
+                        <label for="quality">Quality</label>
+                        <div class="range-min">10</div>
+                        <input type="range" id="quality" min="10" max="63" value="10" class="default-action">
+                        <div class="range-max">63</div>
+                    </div>
+                    <div class="input-group" id="brightness-group">
+                        <label for="brightness">Brightness</label>
+                        <div class="range-min">-2</div>
+                        <input type="range" id="brightness" min="-2" max="2" value="0" class="default-action">
+                        <div class="range-max">2</div>
+                    </div>
+                    <div class="input-group" id="contrast-group">
+                        <label for="contrast">Contrast</label>
+                        <div class="range-min">-2</div>
+                        <input type="range" id="contrast" min="-2" max="2" value="0" class="default-action">
+                        <div class="range-max">2</div>
+                    </div>
+                    <div class="input-group" id="saturation-group">
+                        <label for="saturation">Saturation</label>
+                        <div class="range-min">-2</div>
+                        <input type="range" id="saturation" min="-2" max="2" value="0" class="default-action">
+                        <div class="range-max">2</div>
+                    </div>
+                    <div class="input-group" id="special_effect-group">
+                        <label for="special_effect">Special Effect</label>
+                        <select id="special_effect" class="default-action">
+                            <option value="0" selected="selected">No Effect</option>
+                            <option value="1">Negative</option>
+                            <option value="2">Grayscale</option>
+                            <option value="3">Red Tint</option>
+                            <option value="4">Green Tint</option>
+                            <option value="5">Blue Tint</option>
+                            <option value="6">Sepia</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="awb-group">
+                        <label for="awb">AWB</label>
+                        <div class="switch">
+                            <input id="awb" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="awb"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="awb_gain-group">
+                        <label for="awb_gain">AWB Gain</label>
+                        <div class="switch">
+                            <input id="awb_gain" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="awb_gain"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="wb_mode-group">
+                        <label for="wb_mode">WB Mode</label>
+                        <select id="wb_mode" class="default-action">
+                            <option value="0" selected="selected">Auto</option>
+                            <option value="1">Sunny</option>
+                            <option value="2">Cloudy</option>
+                            <option value="3">Office</option>
+                            <option value="4">Home</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="aec-group">
+                        <label for="aec">AEC SENSOR</label>
+                        <div class="switch">
+                            <input id="aec" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="aec"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="aec2-group">
+                        <label for="aec2">AEC DSP</label>
+                        <div class="switch">
+                            <input id="aec2" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="aec2"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="ae_level-group">
+                        <label for="ae_level">AE Level</label>
+                        <div class="range-min">-2</div>
+                        <input type="range" id="ae_level" min="-2" max="2" value="0" class="default-action">
+                        <div class="range-max">2</div>
+                    </div>
+                    <div class="input-group" id="aec_value-group">
+                        <label for="aec_value">Exposure</label>
+                        <div class="range-min">0</div>
+                        <input type="range" id="aec_value" min="0" max="1200" value="204" class="default-action">
+                        <div class="range-max">1200</div>
+                    </div>
+                    <div class="input-group" id="agc-group">
+                        <label for="agc">AGC</label>
+                        <div class="switch">
+                            <input id="agc" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="agc"></label>
+                        </div>
+                    </div>
+                    <div class="input-group hidden" id="agc_gain-group">
+                        <label for="agc_gain">Gain</label>
+                        <div class="range-min">1x</div>
+                        <input type="range" id="agc_gain" min="0" max="30" value="5" class="default-action">
+                        <div class="range-max">31x</div>
+                    </div>
+                    <div class="input-group" id="gainceiling-group">
+                        <label for="gainceiling">Gain Ceiling</label>
+                        <div class="range-min">2x</div>
+                        <input type="range" id="gainceiling" min="0" max="6" value="0" class="default-action">
+                        <div class="range-max">128x</div>
+                    </div>
+                    <div class="input-group" id="bpc-group">
+                        <label for="bpc">BPC</label>
+                        <div class="switch">
+                            <input id="bpc" type="checkbox" class="default-action">
+                            <label class="slider" for="bpc"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="wpc-group">
+                        <label for="wpc">WPC</label>
+                        <div class="switch">
+                            <input id="wpc" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="wpc"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="raw_gma-group">
+                        <label for="raw_gma">Raw GMA</label>
+                        <div class="switch">
+                            <input id="raw_gma" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="raw_gma"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="lenc-group">
+                        <label for="lenc">Lens Correction</label>
+                        <div class="switch">
+                            <input id="lenc" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="lenc"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="hmirror-group">
+                        <label for="hmirror">H-Mirror</label>
+                        <div class="switch">
+                            <input id="hmirror" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="hmirror"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="vflip-group">
+                        <label for="vflip">V-Flip</label>
+                        <div class="switch">
+                            <input id="vflip" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="vflip"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="dcw-group">
+                        <label for="dcw">DCW (Downsize EN)</label>
+                        <div class="switch">
+                            <input id="dcw" type="checkbox" class="default-action" checked="checked">
+                            <label class="slider" for="dcw"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="colorbar-group">
+                        <label for="colorbar">Color Bar</label>
+                        <div class="switch">
+                            <input id="colorbar" type="checkbox" class="default-action">
+                            <label class="slider" for="colorbar"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="face_detect-group">
+                        <label for="face_detect">Face Detection</label>
+                        <div class="switch">
+                            <input id="face_detect" type="checkbox" class="default-action">
+                            <label class="slider" for="face_detect"></label>
+                        </div>
+                    </div>
+                    <div class="input-group" id="face_recognize-group">
+                        <label for="face_recognize">Face Recognition</label>
+                        <div class="switch">
+                            <input id="face_recognize" type="checkbox" class="default-action">
+                            <label class="slider" for="face_recognize"></label>
+                        </div>
+                    </div>
+                </nav>
             </div>
-            <h2 style="margin-left:120px;max-width:105px;background-color: #f21c21;">DRONEINO!</h2>
-        </section>
-        <script>
+        </div>
+        <h2 style="margin-left:120px;max-width:105px;background-color: #f21c21;">DRONEINO!</h2>
+    </section>
+    <!-- STREAMING -->
+    <figure id="stream-figure">
+        <div id="stream-container" class="image-container hidden">
+            <div class="cards-telemetry-left">
+                <div class="input-group">
+                    <p> pitch: </p>
+                    <p><span class="reading" id="pitchAngle"></span> &deg;</p>
+                </div>
+                <div class="input-group">
+                    <p> roll: </p>
+                    <p><span class="reading" id="rollAngle"></span> &deg;</p>
+                </div>
+                <div class="input-group">
+                    <p> altitude: </p>
+                    <p><span class="reading" id="altitude"></span> m</p>
+                </div>
+            </div>
+            <div class="cards-telemetry-right">
+                <div class="input-group">
+                    <p> battery: </p>
+                    <p><span class="reading" id="battery"></span> V</p>
+                </div>
+                <div class="input-group">
+                    <p> flight mode: </p>
+                    <p><span class="reading" id="flightMode"></span></p>
+                </div>
+                <div class="input-group">
+                    <p> GPS: <span class="reading" id="gps"></span> &deg;</p>
+                </div>
+                <!-- <pre id="drone-ino">
+                    |                      |   
+                    |                      |   
+                ---4---                ---1---
+                    |\                    /|   
+                    | \                  / |   
+                    \                /      
+                        ---------------       
+                        |  DRONEINO!  |       
+                        ---------------       
+                    /                \      
+                    | /                  \ |   
+                    |/                    \|   
+                ---3---                ---2---
+                    |                      |   
+                    |                      |   
+                </pre> -->
+            </div>
+            <div class="close" id="close-stream">x</div>
+            <img id="stream" src="../data/sample_image.png">
+        </div>
+    </figure>
+    <script>
 setInterval(ee,100);function ee(){
     var ee = `${document.location.origin}/telemetry`;
     fetch(ee).then(
@@ -353,11 +408,151 @@ setInterval(ee,100);function ee(){
         data => {for (var key in data) {
             document.getElementById(key).innerHTML=data[key]
         }
-    }
-    );
+    });
 }
 
-document.addEventListener("DOMContentLoaded",function(){function c(e){let t;switch(e.type){case"checkbox":t=e.checked?1:0;break;case"range":case"select-one":t=e.value;break;case"button":case"submit":t="1";break;default:return}const o=`${n}/control?var=${e.id}&val=${t}`;fetch(o).then(e=>{console.log(`request to ${o} finished, status: ${e.status}`)})}var n=document.location.origin;document.querySelectorAll("input[type=text].default-action").forEach(e=>{e.onkeyup=()=>{!function(e){const t=`${n}/pid?var=${e.id}&val=${e.value}`;fetch(t).then(e=>{console.log(`request to ${t}finished,status:${e.status}`)})}(e)}});const a=e=>{e.classList.add("hidden")},u=e=>{e.classList.remove("hidden")},d=e=>{e.classList.add("disabled"),e.disabled=!0},s=e=>{e.classList.remove("disabled"),e.disabled=!1},o=(e,t,o)=>{let n;o=!(null!=o)||o,"checkbox"===e.type?(n=e.checked,t=!!t,e.checked=t):(n=e.value,e.value=t),o&&n!==t?c(e):!o&&("aec"===e.id?t?a(v):u(v):"agc"===e.id?t?(u($),a(b)):(a($),u(b)):"awb_gain"===e.id?t?u(_):a(_):"face_recognize"===e.id&&(t?s(l):d(l)))};document.querySelectorAll(".close").forEach(e=>{e.onclick=()=>{a(e.parentNode)}}),fetch(`${n}/status`).then(function(e){return e.json()}).then(function(t){document.querySelectorAll(".default-action").forEach(e=>{o(e,t[e.id],!1)})});const e=document.getElementById("stream"),t=document.getElementById("stream-container"),i=document.getElementById("get-still"),r=document.getElementById("toggle-stream"),l=document.getElementById("face_enroll"),m=document.getElementById("close-stream"),f=()=>{window.stop(),r.innerHTML="Start Stream"};i.onclick=()=>{f(),e.src=`${n}/capture?_cb=${Date.now()}`,u(t)},m.onclick=()=>{f(),a(t)},r.onclick=()=>{"Stop Stream"===r.innerHTML?f():(e.src=`${n+":81"}/stream`,u(t),r.innerHTML="Stop Stream")},l.onclick=()=>{c(l)},document.querySelectorAll(".default-action").forEach(e=>{e.onchange=()=>c(e)});const g=document.getElementById("agc"),b=document.getElementById("agc_gain-group"),$=document.getElementById("gainceiling-group");g.onchange=()=>{c(g),g.checked?(u($),a(b)):(a($),u(b))};const h=document.getElementById("aec"),v=document.getElementById("aec_value-group");h.onchange=()=>{c(h),h.checked?a(v):u(v)};const p=document.getElementById("awb_gain"),_=document.getElementById("wb_mode-group");p.onchange=()=>{c(p),p.checked?u(_):a(_)};const w=document.getElementById("face_detect"),S=document.getElementById("face_recognize"),k=document.getElementById("framesize");k.onchange=()=>{c(k),5<k.value&&(o(w,!1),o(S,!1))},w.onchange=()=>5<k.value?(alert("Please lower resolution"),void o(w,!1)):(c(w),void(!w.checked&&(d(l),o(S,!1)))),S.onchange=()=>5<k.value?(alert("Please lower resolution"),void o(S,!1)):(c(S),void(S.checked?(s(l),o(w,!0)):d(l)));document.getElementById("nav-toggle-pid").checked=false;document.getElementById("nav-toggle-cb").checked=false;document.getElementById("toggle-stream").click()});
+document.addEventListener("DOMContentLoaded", function(){
+    function c(e){
+        let t;
+        switch(e.type){
+            case"checkbox":t=e.checked?1:0;break;
+            case"range":case"select-one":t=e.value;break;
+            case"button":case"submit":t="1";break;default:return
+        }
+        const o=`${n}/control?var=${e.id}&val=${t}`;
+        fetch(o).then(e=>{
+            console.log(`request to ${o} finished, status: ${e.status}`)
+        })
+    }
+    
+    var n=document.location.origin;
+    document.querySelectorAll("input[type=text].default-action").forEach(
+        e=>{
+            e.onkeyup=()=>{
+                !function(e){
+                    const t=`${n}/pid?var=${e.id}&val=${e.value}`;
+                    fetch(t).then(e=>{
+                        console.log(`request to ${t}finished,status:${e.status}`)
+                    })
+                }(e)
+            }
+        }
+    );
+
+    const a=e=>{
+        e.classList.add("hidden")
+    },u=e=>{
+        e.classList.remove("hidden")
+    },d=e=>{
+        e.classList.add("disabled"),e.disabled=!0
+    },s=e=>{
+        e.classList.remove("disabled"),e.disabled=!1
+    },o=(e,t,o)=>{
+        let n;
+        o=!(null!=o)||o,"checkbox"===e.type?(n=e.checked,t=!!t,e.checked=t):(n=e.value,e.value=t),o&&n!==t?c(e):!o&&("aec"===e.id?t?a(v):u(v):"agc"===e.id?t?(u($),a(b)):(a($),u(b)):"awb_gain"===e.id?t?u(_):a(_):"face_recognize"===e.id&&(t?s(l):d(l)))
+    };
+    document.querySelectorAll(".close").forEach(
+        e=>{
+            e.onclick=()=>{
+                a(e.parentNode)
+            }
+        }),fetch(`${n}/status`).then(function(e){
+            return e.json()
+        }).then(function(t){
+            document.querySelectorAll(".default-action").forEach(e=>{o(e,t[e.id],!1)})
+        });
+
+    const e=document.getElementById("stream"),
+    t=document.getElementById("stream-container"),
+    i=document.getElementById("get-still"),
+    r=document.getElementById("toggle-stream"),
+    l=document.getElementById("face_enroll"),
+    m=document.getElementById("close-stream"),
+    f=()=>{
+        window.stop(),
+        r.innerHTML="Start Stream"
+    };
+
+
+    i.onclick=()=>{
+        f(),
+        e.src=`${n}/capture?_cb=${Date.now()}`,
+        u(t)
+    },m.onclick=()=>{
+        f(),
+        a(t)
+    },r.onclick=()=>{
+        "Stop Stream"===r.innerHTML?f():(
+            e.src=`${n+":81"}/stream`,
+            u(t),
+            r.innerHTML="Stop Stream"
+        )
+    },l.onclick=()=>{
+        c(l)
+    },document.querySelectorAll(".default-action").forEach(e=>{
+        e.onchange=()=>c(e)
+    });
+
+
+    const g=document.getElementById("agc"),
+    b=document.getElementById("agc_gain-group"),
+    $=document.getElementById("gainceiling-group");
+
+    g.onchange=()=>{
+        c(g),
+        g.checked?(
+            u($),
+            a(b)
+        ):(
+            a($),
+            u(b)
+        )
+    };
+
+
+    const h=document.getElementById("aec"),
+    v=document.getElementById("aec_value-group");
+
+
+    h.onchange=()=>{
+        c(h),
+        h.checked?a(v):u(v)
+    };
+
+
+    const p=document.getElementById("awb_gain"),
+    _=document.getElementById("wb_mode-group");
+
+
+    p.onchange=()=>{c(p),p.checked?u(_):a(_)};
+
+
+    const w=document.getElementById("face_detect"),
+    S=document.getElementById("face_recognize"),
+    k=document.getElementById("framesize");
+
+
+    k.onchange=()=>{
+        c(k),
+        5<k.value&&(o(w,!1),o(S,!1))
+    },w.onchange=()=>5<k.value?(
+        alert("Please lower resolution"),
+        void o(w,!1)
+    ):(
+        c(w),
+        void(!w.checked&&(d(l),o(S,!1)))
+    ),S.onchange=()=>5<k.value?(
+        alert("Please lower resolution"),void o(S,!1)
+    ):(
+        c(S),
+        void(S.checked?(s(l),o(w,!0)):d(l))
+    );
+
+    document.getElementById("nav-toggle-pid").checked=false;
+    document.getElementById("nav-toggle-cb").checked=false;
+    document.getElementById("toggle-stream").click()
+});
+
         </script>
     </body>
 </html>

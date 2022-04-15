@@ -9,7 +9,7 @@
 telemetryAnalysis/telemetryAnalysis.cpp
 
 # test
-test/index.html
+test/original-index.html
 # test/original-index.html
 test/full-compressed-index.html
 test/script.js
@@ -18,8 +18,13 @@ test/style.css
 test/charTest.*
 test/uart
 test/simpleplot.*
-
+test/barometerFilter.py
 test/timerTest.*
+
+test/index
+test/original-index.html
+test/webApp/CyberChef.url
+
 
 # telemetryAnalysis
 test/openFileDialog.cpp

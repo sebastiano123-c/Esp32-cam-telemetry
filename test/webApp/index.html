@@ -1,0 +1,344 @@
+<!--
+                                                DRONEINO TELEMETRY WEB APP 
+
+    to convert html to gzip:
+    https://gchq.github.io/CyberChef/#recipe=Gzip('Dynamic%20Huffman%20Coding','index.html.gz','',false)To_Hex('0x',0)Split('0x',',0x')
+
+    original html:
+    https://gitlab.com/diy_bloke/esp32camerahtml/-/blob/master/index_html
+
+    js compressor:
+    https://www.uglifyjs.net/
+
+    html compressor:
+    https://www.textfixer.com/html/compress-html-compression.php
+    
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1">
+        <title>DroneInoTelemetry web app</title>
+        <link rel="stylesheet" href="src/style.css">
+    </head>
+
+    <body>
+
+
+        <!-- STREAMING VIDEO -->
+        <img id="stream" src="">
+
+
+        <!-- UPPER PANEL -->
+        <div id="upper-panel">
+           <div class="panel-toggling-item" id="telem-toggle-menu" style="opacity:0.7;">
+                Telemetry
+           </div>
+           <div class="panel-toggling-item" id="PID-toggle-menu">
+                PID
+            </div>
+            <div class="panel-toggling-item" id="cam-toggle-menu">
+                Cam
+            </div>
+            <div class="h-panel-item" id="battery-container">
+                <div id="battery-level">
+                    <span class="reading" id="battery">1</span>V
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- BOTTOM PANEL -->
+        <div id="bottom-panel">
+            <!-- <div class="h-panel-item">
+                DroneIno!
+            </div> -->
+            <div class="h-panel-item" id="flightMode"></div>
+            <div class="h-panel-item">
+                GPS: <span class="reading" id="gps"></span> &deg;
+            </div>
+            <div class="h-panel-item" id="SD">SD: <a id="SDStatus">disc.</a></div>
+        </div>
+        
+
+        <!-- LEFT PANEL -->
+        <div id="left-panel" class="toggled-menu">
+            <div class="v-panel-item">
+                Pitch:<br><span class="reading" id="pitchAngle"></span> &deg;
+            </div>
+            <div class="v-panel-item">
+                Roll:<br><span class="reading" id="rollAngle"></span> &deg;
+            </div>
+            <div class="v-panel-item">
+                Alt:<br><span class="reading" id="altitude"></span> m
+            </div>
+        </div>
+
+        
+        <!-- RIGHT PANEL -->
+        <div id="right-panel">
+            <div class="v-panel-item hidden" id="alert-msg"></div>
+            <div class="v-panel-item" id="get-still">Capture</div>
+            <div class="v-panel-item" id="face_enroll">Enroll face</div>
+        </div>
+
+        
+        <!-- MAIN PANEL -->
+        <div id="main-panel">
+            <!-- PID MENU -->
+            <div id="menu-pid" class="toggled-menu hidden">
+                pitch/roll:<hr>
+                <div class="input-group">
+                    <a class="pid-label">P</a>
+                    <input class="default-action" type="text" id="rollPInput" name="rollP">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">I</a>
+                    <input class="default-action" type="text" id="rollIInput" name="rollI">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">D</a>
+                    <input class="default-action" type="text" id="rollDInput" name="rollD">
+                </div>
+                <br>
+                yaw:<hr>
+                <div class="input-group">
+                    <a class="pid-label">P</a> 
+                    <input class="default-action" type="text" id="yawPInput" name="yawP">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">I</a>
+                    <input class="default-action" type="text" id="yawIInput" name="yawI">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">D</a>
+                    <input class="default-action" type="text" id="yawDInput" name="yawD">
+                </div>
+                <br>
+                pitch/roll filter:<hr>
+                <div class="input-group">
+                    <a class="pid-label">high/low (&#37;)</a>
+                    <input class="default-action" type="text" id="filterPitchRollInput" name="filterPitchRoll">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">roll corr (&deg;)</a>
+                    <input class="default-action" type="text" id="correctionRollInput" name="correctionRoll">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">pitch corr (&deg;)</a>
+                    <input class="default-action" type="text" id="correctionPitchInput" name="correctionPitch">
+                </div>
+                <br>
+                altitude:<hr>
+                <div class="input-group">
+                    <a class="pid-label">P</a>
+                    <input class="default-action" type="text" id="altitudePInput" name="altitudeP">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">I</a>
+                    <input class="default-action" type="text" id="altitudeIInput" name="altitudeI">
+                </div>
+                <div class="input-group">
+                    <a class="pid-label">D</a>
+                    <input class="default-action" type="text" id="altitudeDInput" name="altitudeD">
+                </div>
+            </div>
+            <!-- CAMERA -->
+            <div id="menu-cam" class="toggled-menu hidden">
+                <div class="input-group" id="framesize-group">
+                    <label for="framesize">Resolution</label>
+                    <select id="framesize" class="default-action">
+                        <option value="10">UXGA(1600x1200)</option>
+                        <option value="9" selected="selected">SXGA(1280x1024)</option>
+                        <option value="8">XGA(1024x768)</option>
+                        <option value="7">SVGA(800x600)</option>
+                        <option value="6">VGA(640x480)</option>
+                        <option value="5">CIF(400x296)</option>
+                        <option value="4">QVGA(320x240)</option>
+                        <option value="3">HQVGA(240x176)</option>
+                        <option value="0">QQVGA(160x120)</option>
+                    </select>
+                </div>
+                <div class="input-group" id="quality-group">
+                    <label for="quality">Quality</label>
+                    <div class="range-min">10</div>
+                    <input type="range" id="quality" min="10" max="63" value="10" class="default-action">
+                    <div class="range-max">63</div>
+                </div>
+                <div class="input-group" id="brightness-group">
+                    <label for="brightness">Brightness</label>
+                    <div class="range-min">-2</div>
+                    <input type="range" id="brightness" min="-2" max="2" value="0" class="default-action">
+                    <div class="range-max">2</div>
+                </div>
+                <div class="input-group" id="contrast-group">
+                    <label for="contrast">Contrast</label>
+                    <div class="range-min">-2</div>
+                    <input type="range" id="contrast" min="-2" max="2" value="0" class="default-action">
+                    <div class="range-max">2</div>
+                </div>
+                <div class="input-group" id="saturation-group">
+                    <label for="saturation">Saturation</label>
+                    <div class="range-min">-2</div>
+                    <input type="range" id="saturation" min="-2" max="2" value="0" class="default-action">
+                    <div class="range-max">2</div>
+                </div>
+                <div class="input-group" id="special_effect-group">
+                    <label for="special_effect">Special Effect</label>
+                    <select id="special_effect" class="default-action">
+                        <option value="0" selected="selected">No Effect</option>
+                        <option value="1">Negative</option>
+                        <option value="2">Grayscale</option>
+                        <option value="3">Red Tint</option>
+                        <option value="4">Green Tint</option>
+                        <option value="5">Blue Tint</option>
+                        <option value="6">Sepia</option>
+                    </select>
+                </div>
+                <div class="input-group" id="awb-group">
+                    <label for="awb">AWB</label>
+                    <div class="switch">
+                        <input id="awb" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="awb"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="awb_gain-group">
+                    <label for="awb_gain">AWB Gain</label>
+                    <div class="switch">
+                        <input id="awb_gain" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="awb_gain"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="wb_mode-group">
+                    <label for="wb_mode">WB Mode</label>
+                    <select id="wb_mode" class="default-action">
+                        <option value="0" selected="selected">Auto</option>
+                        <option value="1">Sunny</option>
+                        <option value="2">Cloudy</option>
+                        <option value="3">Office</option>
+                        <option value="4">Home</option>
+                    </select>
+                </div>
+                <div class="input-group" id="aec-group">
+                    <label for="aec">AEC SENSOR</label>
+                    <div class="switch">
+                        <input id="aec" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="aec"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="aec2-group">
+                    <label for="aec2">AEC DSP</label>
+                    <div class="switch">
+                        <input id="aec2" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="aec2"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="ae_level-group">
+                    <label for="ae_level">AE Level</label>
+                    <div class="range-min">-2</div>
+                    <input type="range" id="ae_level" min="-2" max="2" value="0" class="default-action">
+                    <div class="range-max">2</div>
+                </div>
+                <div class="input-group" id="aec_value-group">
+                    <label for="aec_value">Exposure</label>
+                    <div class="range-min">0</div>
+                    <input type="range" id="aec_value" min="0" max="1200" value="204" class="default-action">
+                    <div class="range-max">1200</div>
+                </div>
+                <div class="input-group" id="agc-group">
+                    <label for="agc">AGC</label>
+                    <div class="switch">
+                        <input id="agc" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="agc"></label>
+                    </div>
+                </div>
+                <div class="input-group hidden" id="agc_gain-group">
+                    <label for="agc_gain">Gain</label>
+                    <div class="range-min">1x</div>
+                    <input type="range" id="agc_gain" min="0" max="30" value="5" class="default-action">
+                    <div class="range-max">31x</div>
+                </div>
+                <div class="input-group" id="gainceiling-group">
+                    <label for="gainceiling">Gain Ceiling</label>
+                    <div class="range-min">2x</div>
+                    <input type="range" id="gainceiling" min="0" max="6" value="0" class="default-action">
+                    <div class="range-max">128x</div>
+                </div>
+                <div class="input-group" id="bpc-group">
+                    <label for="bpc">BPC</label>
+                    <div class="switch">
+                        <input id="bpc" type="checkbox" class="default-action">
+                        <label class="slider" for="bpc"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="wpc-group">
+                    <label for="wpc">WPC</label>
+                    <div class="switch">
+                        <input id="wpc" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="wpc"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="raw_gma-group">
+                    <label for="raw_gma">Raw GMA</label>
+                    <div class="switch">
+                        <input id="raw_gma" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="raw_gma"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="lenc-group">
+                    <label for="lenc">Lens Correction</label>
+                    <div class="switch">
+                        <input id="lenc" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="lenc"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="hmirror-group">
+                    <label for="hmirror">H-Mirror</label>
+                    <div class="switch">
+                        <input id="hmirror" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="hmirror"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="vflip-group">
+                    <label for="vflip">V-Flip</label>
+                    <div class="switch">
+                        <input id="vflip" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="vflip"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="dcw-group">
+                    <label for="dcw">DCW (Downsize EN)</label>
+                    <div class="switch">
+                        <input id="dcw" type="checkbox" class="default-action" checked="checked">
+                        <label class="slider" for="dcw"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="colorbar-group">
+                    <label for="colorbar">Color Bar</label>
+                    <div class="switch">
+                        <input id="colorbar" type="checkbox" class="default-action">
+                        <label class="slider" for="colorbar"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="face_detect-group">
+                    <label for="face_detect">Face Detection</label>
+                    <div class="switch">
+                        <input id="face_detect" type="checkbox" class="default-action">
+                        <label class="slider" for="face_detect"></label>
+                    </div>
+                </div>
+                <div class="input-group" id="face_recognize-group">
+                    <label for="face_recognize">Face Recognition</label>
+                    <div class="switch">
+                        <input id="face_recognize" type="checkbox" class="default-action">
+                        <label class="slider" for="face_recognize"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="src/functions.js"></script>
+    </body>
+</html>

@@ -75,13 +75,13 @@ const char* timeUTC             = "";
 void setup() {
 
   // Serial.begin(115200);
-
   beginUARTCOM();
 
-  delay(40);
-
+  // setup the SD card
   setupSD();
 
+
+  // setup camera settings
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;
@@ -104,6 +104,7 @@ void setup() {
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
   
+
   // if PSRAM IC present, init with UXGA resolution and higher JPEG quality
   //                      for larger pre-allocated frame buffer.
   if(psramFound()){
@@ -116,7 +117,8 @@ void setup() {
     config.fb_count = 1;
   }
 
-  // camera init
+
+  // camera initialization
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
     return;
@@ -160,7 +162,24 @@ void loop() {
   readDataTransfer();
 
   // update flightData
-  writeDataLogFlight(SD_MMC);
+  switch (isConnectedSD){                                  // check if SD in the previous loop result connected
+  
+    case 1:                                                // if is connected, then update the data log file in the SD
+      writeDataLogFlight(SD_MMC);
+      /**
+       * @bug no detection if the SD is disconnected  
+       * 
+       */
+      if(!SD_MMC.begin("/sdcard", true)) isConnectedSD=0;  // check if the connection is lost
+      break;
+    
+    default:                                               // else, check if (in the current loop) the SD is connected
+      setupSD();                                           // setup the SD card
+      readConfigFile(SD_MMC);                              // initialize PID and sent back it to DroneIno
+      break;
+
+  }
+  
 
   delay(timeDelay);
 }

@@ -20,6 +20,7 @@ HardwareSerial SUART(1);
 
 void beginUARTCOM(){
     SUART.begin(115200, SERIAL_8N1, 3, 1); // RX, TX
+      delay(40);
 }
 
 void updatePID(){

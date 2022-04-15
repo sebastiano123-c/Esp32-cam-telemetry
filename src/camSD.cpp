@@ -97,22 +97,26 @@ void appendFile(fs::FS &fs, const char * path, const char * message){
     }
 }
 
-
-//Read the config flight file
+/**
+ * @brief Read the config flight file and initialize the PID
+ * 
+ * @param fs the file object
+ */
 void readConfigFile(fs::FS &fs){
-    /**
-     * @brief initialize the PID
-     * 
-     */
+
+    // declare the array of elements that will be filled
     float arr[dataControllerSize];
 
+    // open the file
     File file = fs.open(configFilePath);
     if(file){
+
+        // read the config.txt file
         for (int i = 0; i < dataControllerSize; i++) {
             arr[i] = file.parseFloat();
         }
-        //file.close();
 
+        // initialize the PID values with the one read on the SD file
         //              (ROLL)
         PID_P_GAIN_ROLL = arr[0];                    //Gain setting for the roll P-controller (1.3)
         PID_I_GAIN_ROLL = arr[1];                  //Gain setting for the roll I-controller  (0.0002)
@@ -128,7 +132,7 @@ void readConfigFile(fs::FS &fs){
         PID_I_GAIN_YAW = arr[4];                     //Gain setting for the pitch I-controller. (0.04)
         PID_D_GAIN_YAW = arr[5];                      //Gain setting for the pitch D-controller. (0.0)
                           
-        // GYROSCOPE
+        //              (GYROSCOPE)
         GYROSCOPE_ROLL_FILTER = arr[6];                      // read your gyroscope data after the calibration, try different values and choose the best one
         GYROSCOPE_ROLL_CORR = arr[7];                      // (0.) after set GYROSCOPE_ROLL_FILTER, put here the angle roll you read eneabling DEBUG
         GYROSCOPE_PITCH_CORR = arr[8];                     // (-1.65.) after set GYROSCOPE_PITCH_FILTER, put here the angle pitch you read eneabling DEBUG
@@ -139,10 +143,6 @@ void readConfigFile(fs::FS &fs){
         PID_D_GAIN_ALTITUDE = arr[11];                      //Gain setting for the pitch D-controller. (0.0)
 
         // update DroneIno PID parameters
-        /**
-         * @bug calling this function here the telemetry gives infinity
-         * 
-         */
         writeDataTransfer();
         
         // for(int ii = 0; ii < dataControllerSize; ii++) Serial.printf("%i: %.6f\n", ii, arr[ii]);
@@ -230,9 +230,7 @@ void setupSD() {
     // ledcSetup(0, 500, 8);
     // ledcAttachPin(GPIO_NUM_4, 0);
     
-    if(!SD_MMC.begin("/sdcard", true)){     // "/sdcard", true disables the flashs
-        // Serial.println("Card Mount Failed");
-        //ledcWrite(0, 255);
+    if(!SD_MMC.begin("/sdcard", true)){     
         isConnectedSD = 0;
     }
     else{

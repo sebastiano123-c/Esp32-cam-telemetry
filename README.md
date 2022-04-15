@@ -1,5 +1,35 @@
-# Esp32-cam-telemetry
-Create a telemetry system for your drone using esp32-cam.
+<!-- # Esp32-cam-telemetry
+Create a telemetry system for your drone using esp32-cam. -->
+<!-- <pre align=center>
+   
+         ---------------       
+         |      O      |          
+         |             |   
+         |             |          
+         |  ESP32-CAM  |          
+         ---------------       
+  
+</pre> -->
+
+<!-- title -->
+<h1 align="center">
+  <b> 
+    Esp32-cam-telemetry
+  </b>
+</h1>
+<h3 align="center"> 
+  <i>
+    Create a telemetry system for your drone using esp32-cam.
+  </i>
+</h3>
+<br>
+
+<!-- badges -->
+<p align="center">
+  <img src="https://img.shields.io/badge/IDE-PlatformIO-orange" />
+  <img src="https://img.shields.io/badge/PIO core-5-red" />
+  <img src="https://img.shields.io/badge/cpp-11-blue" /> 
+</p>
 
 # Usage
 Clone this repo
@@ -42,7 +72,7 @@ Upload the [wifi-tx](https://github.com/sebastiano123-c/Esp32-cam-telemetry/test
 Then, upload the [main](https://github.com/sebastiano123-c/Esp32-cam-telemetry/blob/master/src/main.cpp) sketch on your esp32-cam.
 
 # Wifi connection
-After connecting to the network using the password `esp32cam`, dial in your browser's search bar `292.168.4.1`.
+After connecting to the network using the password `esp32cam`, dial in your browser's search bar `192.168.4.1`.
 That's it.
 
 # Telemetry
