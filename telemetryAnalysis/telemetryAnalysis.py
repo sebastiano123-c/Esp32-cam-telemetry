@@ -20,7 +20,8 @@ myFmt = mdates.DateFormatter('%H:%M:%S')
 
 
 # set false if you not use GPS
-GPS_data = True
+GPS_data = False
+battery_fit = False
 
 
 # create folder for GPS
@@ -109,23 +110,21 @@ while(1):
 
                     tmp = tmp + 1
                 
+                # matplotlib
+                fig, axs = plt.subplots(2,2)
+                fig.suptitle(filename)
+                
+                
                 # x axis data
                 if(GPS_data == False):
                     dataX = index
                 else:
                     dataX = time                    
-
-                # battery curve linear fit
-                poptL = np.polyfit(index, battery, 1)
-                poly1d_fn = np.poly1d(poptL) 
-
-                # matplotlib
-                fig, axs = plt.subplots(2,2)
-                fig.suptitle(filename)
-                axs[0,0].xaxis.set_major_formatter(myFmt)
-                axs[1,0].xaxis.set_major_formatter(myFmt)
-                axs[0,1].xaxis.set_major_formatter(myFmt)
-                axs[1,1].xaxis.set_major_formatter(myFmt)
+                    axs[0,0].xaxis.set_major_formatter(myFmt)
+                    axs[1,0].xaxis.set_major_formatter(myFmt)
+                    axs[0,1].xaxis.set_major_formatter(myFmt)
+                    axs[1,1].xaxis.set_major_formatter(myFmt)
+                    
 
                 # axs[0,0].set_ylim([-45, 45])
                 axs[0,0].set_title("Roll/pitch angles")
@@ -154,7 +153,13 @@ while(1):
 
                 axs[1,1].set_title("Battery voltage")
                 axs[1,1].plot(dataX, battery, label="battery")
-                axs[1,1].plot(dataX, poly1d_fn(index), label='fit')
+                
+                # battery curve linear fit
+                if(battery_fit==True):
+                    poptL = np.polyfit(index, battery, 1)
+                    poly1d_fn = np.poly1d(poptL) 
+                    axs[1,1].plot(dataX, poly1d_fn(index), label='fit')
+                    
                 axs[1,1].set_ylabel("Voltage [V]")
                 axs[1,1].legend(loc='best')
 
@@ -174,7 +179,7 @@ while(1):
                 print("\n\n", filename)
                 print("  - Battery:")
                 print("    > tot. batt. consumption: ", max(battery) - min(battery), " V")
-                print("    > batt. linear trend: m=%2.1e " % poptL[0], " b=%2.1e" % poptL[1])
+                if(battery_fit): print("    > batt. linear trend: m=%2.1e " % poptL[0], " b=%2.1e" % poptL[1])
                 print("  - Altimeter:")
                 print("    > tot. ascension: ", max(altitude) - min(altitude), " m")
                 print("")
