@@ -37,7 +37,7 @@ extern float PID_D_GAIN_ALTITUDE;                 //Gain setting for the pitch D
 //           (TELEMETRY)                                      
 extern float rollAngle;
 extern float pitchAngle;
-extern float flightMode;
+extern int flightMode;
 extern float batteryPercentage;
 extern float altitudeMeasure;
 extern float rollTrim;

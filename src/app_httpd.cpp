@@ -701,7 +701,7 @@ static esp_err_t telemetry_handler(httpd_req_t *req){
     // telemetry
     ptr+=sprintf(ptr, "\"pitchAngle\":%.4f,", pitchAngle);
     ptr+=sprintf(ptr, "\"rollAngle\":%.4f,", rollAngle);
-    ptr+=sprintf(ptr, "\"flightMode\":%.4f,", flightMode);
+    ptr+=sprintf(ptr, "\"flightMode\":%i,", flightMode);
     ptr+=sprintf(ptr, "\"battery\":%.4f,", batteryPercentage);
     ptr+=sprintf(ptr, "\"altitude\":%.4f,", altitudeMeasure);
     ptr+=sprintf(ptr, "\"gps\":\"(%.1f,%.1f)\",", latitude, longitude);

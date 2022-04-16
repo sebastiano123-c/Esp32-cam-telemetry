@@ -55,7 +55,7 @@ float PID_D_GAIN_ALTITUDE       = 0.;
 //    (TELEMETRY)
 float rollAngle                 = 1.;
 float pitchAngle                = 1.;
-float flightMode                = 1.;
+int flightMode                  = 1;
 float batteryPercentage         = 1.;
 float altitudeMeasure           = 1.;
 

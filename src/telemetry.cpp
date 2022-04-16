@@ -110,7 +110,7 @@ void readDataTransfer(){
         // fill data structure after receiving
         rollAngle         = dataTransfer[0].toFloat();
         pitchAngle        = dataTransfer[1].toFloat();
-        flightMode        = dataTransfer[2].toFloat();
+        flightMode        = dataTransfer[2].toInt();
         batteryPercentage = dataTransfer[3].toFloat();
         altitudeMeasure   = dataTransfer[4].toFloat();
 
