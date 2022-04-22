@@ -14,7 +14,9 @@
 #include "esp_camera.h"
 #include <WiFi.h>
 
+
 #define CAMERA_MODEL_AI_THINKER // Has PSRAM
+
 
 #include "camera_pins.h"
 #include "app_httpd.h"
@@ -65,6 +67,8 @@ float pitchTrim                 = 1;
 float yawTrim                   = 1;
 float throttleTrim              = 1;
 
+//    (TEMPERATURE)
+float temperature               = 1;
 
 //    (GPS TELEM.)
 float latitude                  = 0.; // @todo = NULL;
@@ -169,8 +173,8 @@ void loop() {
       /**
        * @bug no detection if the SD is disconnected  
        * 
-       */
       if(!SD_MMC.begin("/sdcard", true)) isConnectedSD=0;  // check if the connection is lost
+       */
       break;
     
     default:                                               // else, check if (in the current loop) the SD is connected

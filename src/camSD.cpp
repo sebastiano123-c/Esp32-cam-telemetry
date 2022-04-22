@@ -8,9 +8,9 @@
 
 const char* configFilePath = "/src/config.txt";
 const char* flightDataPath = "/data/flightData";
+const char* logFileName = "";
 
 static char todayLogChar[100];
-const char* logFileName;
 int numberOfDataFiles = 0;
 uint8_t isConnectedSD = 0;
 
@@ -95,6 +95,8 @@ void appendFile(fs::FS &fs, const char * path, const char * message){
     } else {
         // Serial.println("Write failed");
     }
+
+    file.close();
 }
 
 /**

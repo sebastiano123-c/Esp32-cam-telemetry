@@ -704,6 +704,7 @@ static esp_err_t telemetry_handler(httpd_req_t *req){
     ptr+=sprintf(ptr, "\"flightMode\":%i,", flightMode);
     ptr+=sprintf(ptr, "\"battery\":%.4f,", batteryPercentage);
     ptr+=sprintf(ptr, "\"altitude\":%.4f,", altitudeMeasure);
+    ptr+=sprintf(ptr, "\"temperature\":%.1f,", temperature);
     ptr+=sprintf(ptr, "\"gps\":\"(%.1f,%.1f)\",", latitude, longitude);
     ptr+=sprintf(ptr, "\"SDStatus\":%i", isConnectedSD);//comma!!!
 

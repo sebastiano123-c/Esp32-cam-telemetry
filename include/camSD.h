@@ -2,8 +2,7 @@
 
 #include "FS.h" 
 #include "SD_MMC.h" 
-#include "telemetry.h"
-#include "time.h"
+#include <telemetry.h>
 
 extern uint8_t isConnectedSD;
 extern const char* logFileName;

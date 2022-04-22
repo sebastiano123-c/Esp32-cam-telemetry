@@ -19,8 +19,8 @@ String dataTransfer[dataTransferSize];
 HardwareSerial SUART(1); 
 
 void beginUARTCOM(){
-    SUART.begin(115200, SERIAL_8N1, 3, 1); // RX, TX
-      delay(40);
+    SUART.begin(BAUD_RATE, SERIAL_8N1, 3, 1); // RX, TX
+    delay(40);
 }
 
 void updatePID(){
@@ -85,8 +85,7 @@ void readDataTransfer(){
         // read from serial
         //Serial.printf("I'm reading...\n");
         str = SUART.readStringUntil('\n');
-        //Serial.println(str);
-
+        // append the string to log file 
         // appendFile(SD_MMC, "/debug/log.txt", (str+"\n").c_str());
 
         // find position of the last <
@@ -119,9 +118,11 @@ void readDataTransfer(){
         yawTrim           = dataTransfer[7].toFloat();
         throttleTrim      = dataTransfer[8].toFloat();
 
-        latitude          = dataTransfer[9].toFloat();
-        longitude         = dataTransfer[10].toFloat();
-        timeUTC           = dataTransfer[11].c_str();
+        temperature       = dataTransfer[9].toFloat();
+
+        latitude          = dataTransfer[10].toFloat();
+        longitude         = dataTransfer[11].toFloat();
+        timeUTC           = dataTransfer[12].c_str();
         
         //  // print in csv format   
         //  for(int i = 0; i < dataTransferSize; i++){

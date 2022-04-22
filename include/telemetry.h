@@ -3,6 +3,8 @@
 #include "app_httpd.h"
 #include "HardwareSerial.h"
 
+#define BAUD_RATE 115200                          // (9600, 57600, 115200)
+
 
 //           (ROLL)
 extern float PID_P_GAIN_ROLL;                     //Gain setting for the roll P-controller (1.3)
@@ -44,15 +46,19 @@ extern float rollTrim;
 extern float pitchTrim;
 extern float yawTrim;
 extern float throttleTrim;
+extern float temperature;
 extern float latitude;
 extern float longitude;
 extern const char* timeUTC;
 
+//      (FILE)
 #define flightDataHeaderCSV "roll, pitch, flightMode, battery, altitude, rec. roll, rec. pitch, rec. yaw, rec. throttle, lat, lon, time (UTC)\n"
+extern const char* logFileName;
+
 
 //           (UART)                                      
-const int dataTransferSize = 12;
-const int dataControllerSize = 12;
+const int dataTransferSize = 13;                    // number of elements of the incoming string (telemetry)
+const int dataControllerSize = 12;                  // number of elements of the output string   (PID)
 
 
 //          (TELEMETRY FUNCTIONS)
