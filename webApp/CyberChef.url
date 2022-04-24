@@ -1,0 +1,2 @@
+[InternetShortcut]
+URL=https://gchq.github.io/CyberChef/#recipe=Gzip('Dynamic%20Huffman%20Coding','index.html.gz','',false)To_Hex('0x',0)Split('0x',',0x')

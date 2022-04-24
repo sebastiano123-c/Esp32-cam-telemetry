@@ -162,8 +162,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     
     const e=document.getElementById("stream"),
-    i=document.getElementById("get-still"),
-    r=document.getElementById("toggle-stream"),
+    // i=document.getElementById("get-still"),
+    // r=document.getElementById("toggle-stream"),
     l=document.getElementById("face_enroll");
     // f=()=>{
     //     window.stop(),
