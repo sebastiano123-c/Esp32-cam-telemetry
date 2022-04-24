@@ -50,6 +50,7 @@ void writeDataTransfer(){
   static char charToPrint[500];
   char * ptr = charToPrint;
 
+  ptr += sprintf(ptr, "<");
   ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ROLL);
   ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ROLL);
   ptr += sprintf(ptr, "%.6f,", PID_D_GAIN_ROLL);
@@ -62,6 +63,7 @@ void writeDataTransfer(){
   ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ALTITUDE);
   ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ALTITUDE);
   ptr += sprintf(ptr, "%.6f", PID_D_GAIN_ALTITUDE);
+  ptr += sprintf(ptr, ">");
 
   ptr += 0;
 
@@ -124,16 +126,5 @@ void readDataTransfer(){
         longitude         = dataTransfer[11].toFloat();
         timeUTC           = dataTransfer[12].c_str();
         
-        //  // print in csv format   
-        //  for(int i = 0; i < dataTransferSize; i++){
-        //    Serial.printf("%.6f\n", dataTransfer[i]);
-        //  }
     }
-    // else{
-    //     rollAngle = 0.;
-    //     pitchAngle = 2.;
-    //     flightMode = 0.;
-    //     batteryPercentage = 3.;
-    //     altitudeMeasure = 0.;
-    // }
 }

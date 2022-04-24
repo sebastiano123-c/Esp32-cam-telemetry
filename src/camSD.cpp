@@ -261,6 +261,10 @@ void setupSD() {
         // create log file for this session
         writeFile(SD_MMC, logFileName, flightDataHeaderCSV);
 
+
+        // initialize PID and sent back it to DroneIno
+        readConfigFile(SD_MMC);
+        
     }
 
 }

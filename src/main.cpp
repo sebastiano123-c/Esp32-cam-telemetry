@@ -81,9 +81,6 @@ void setup() {
   // Serial.begin(115200);
   beginUARTCOM();
 
-  // setup the SD card
-  setupSD();
-
 
   // setup camera settings
   camera_config_t config;
@@ -155,8 +152,8 @@ void setup() {
   }
 
 
-  // initialize PID and sent back it to DroneIno
-  readConfigFile(SD_MMC);
+  // setup the SD card
+  setupSD();
 
 }
 
@@ -179,11 +176,10 @@ void loop() {
     
     default:                                               // else, check if (in the current loop) the SD is connected
       setupSD();                                           // setup the SD card
-      readConfigFile(SD_MMC);                              // initialize PID and sent back it to DroneIno
       break;
 
   }
   
 
-  delay(timeDelay);
+  // delay(timeDelay);
 }

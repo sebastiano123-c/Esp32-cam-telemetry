@@ -157,46 +157,56 @@ void writeDataTransfer(){
  */
 void readDataTransfer(){
 
-  // declair index array
-  int indices[dataControllerSize-1];
-  String str;
-  
-  // read from serial
-  Serial.printf("I'm reading...\n");
-  str = SUART.readStringUntil('\n');
+  if(SUART.available() > 0){
 
-  // find positions of ","
-  //Serial.println("indices...");
-  int i = 0;
-  indices[i] = str.indexOf(',');
-  for( i = 1; i < dataControllerSize-1; i++){
-    indices[i] = str.indexOf(',', indices[i-1]+1);
-  }
+    // declair index array
+    int indices[dataControllerSize];
+    String str = "";
+    
+    // read from serial
+    str = SUART.readStringUntil('\n');
 
-  // substring the data and convert it to floats
-  i = 0;
-  dataController[i] = str.substring(0, indices[i]).toFloat();
-  //Serial.printf("%i: %f \n", i, dataController[i]);
-  for( i = 1; i < dataControllerSize - 1; i++){
-    dataController[i] = str.substring(indices[i-1] + 1, indices[i]).toFloat();
-    //Serial.printf("%i: %f \n", i, dataController[i]);
-  }
-  dataController[dataControllerSize - 1] = str.substring(indices[dataControllerSize - 2] +1 ).toFloat();
-  //Serial.printf("%i: %f %s \n", indices[dataControllerSize - 2], dataController[dataControllerSize - 1], str.substring(39+1 ));
+    // find position of the last <
+    int posStart = str.lastIndexOf('<') + 1;
+    
+    // find positions of ","
+    int i = 0;
+    indices[i] = str.indexOf(',', posStart);
+    for( i = 1; i < dataControllerSize - 1; i++){
+        indices[i] = str.indexOf(',', indices[i-1]+1);
+    }
+    indices[dataControllerSize - 1] = str.indexOf('>');                                 // find end position >
 
-  // fill data structure after receiving
-  PID_P_GAIN_ROLL = dataController[0];
-  PID_I_GAIN_ROLL = dataController[1];
-  PID_D_GAIN_ROLL = dataController[2];
-  PID_P_GAIN_PITCH = dataController[3];
-  PID_I_GAIN_PITCH = dataController[4];
-  PID_D_GAIN_PITCH = dataController[5];
-  PID_P_GAIN_YAW = dataController[6];
-  PID_I_GAIN_YAW = dataController[7];
-  PID_D_GAIN_YAW = dataController[8];
+    // substring the data
+    i = 0;
+    dataController[i] = str.substring(posStart, indices[i]).toFloat();
+    for( i = 1; i < dataControllerSize; i++){
+        dataController[i] = str.substring(indices[i-1] + 1, indices[i]).toFloat();
+    }
 
-  // print in csv format   
-  for(int i = 0; i < dataControllerSize; i++){
-    Serial.printf("%.6f\n", dataController[i]);
+    // fill data structure after receiving
+    if(
+      dataController[0] < 1e-11 && dataController[1] < 1e-11 && dataController[2] < 1e-11
+      && dataController[3] < 1e-11 && dataController[4] < 1e-11 && dataController[5] < 1e-11
+      && dataController[6] < 1e-11 && dataController[7] < 1e-11 && dataController[8] < 1e-11
+      && dataController[9] < 1e-11 && dataController[10] < 1e-11 && dataController[11] < 1e-11
+    );
+    else {
+      PID_P_GAIN_ROLL = dataController[0];
+      PID_I_GAIN_ROLL = dataController[1];
+      PID_D_GAIN_ROLL = dataController[2];
+      PID_P_GAIN_PITCH = dataController[3];
+      PID_I_GAIN_PITCH = dataController[4];
+      PID_D_GAIN_PITCH = dataController[5];
+      PID_P_GAIN_YAW = dataController[6];
+      PID_I_GAIN_YAW = dataController[7];
+      PID_D_GAIN_YAW = dataController[8];
+    }
+
+    // print in csv format   
+    for(int i = 0; i < dataControllerSize; i++){
+      Serial.printf("%.6f\n", dataController[i]);
+    }
+
   }
 }

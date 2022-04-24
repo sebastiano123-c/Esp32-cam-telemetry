@@ -119,7 +119,7 @@ The directory structure of the SD is
 
 
 # Browser 
-I also put in the [test](https://github.com/sebastiano123-c/Esp32-cam-telemetry/tree/master/test/webApp) folder the HTML source.
+I also put in the [test](https://github.com/sebastiano123-c/Esp32-cam-telemetry/tree/master/webApp) folder the HTML source.
 If you modify it, please remember to full compress all css, HTML and js parts, otherwise the memory of the esp32-cam will overflow.
 
 The index file must then be compressed using this [gzip](https://gchq.github.io/CyberChef/#recipe=Gzip('Dynamic%20Huffman%20Coding','index.html.gz','',false)To_Hex('0x',0)Split('0x',',0x')) procedure, and then put it in the camera [index](https://github.com/sebastiano123-c/include/camera_index.h).
