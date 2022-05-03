@@ -135,10 +135,10 @@ while(1):
 
                 axs[1,0].set_ylim([920, 2080])
                 axs[1,0].set_title("Receiver channels pulse width")
-                axs[1,0].plot(dataX, rollRec, "-.", alpha=0.6, label="roll rec.")
-                axs[1,0].plot(dataX, pitchRec, "-.", alpha=0.6, label="pitch rec.")
-                axs[1,0].plot(dataX, yawRec, "-.", alpha=0.6, label="yaw rec.")
-                axs[1,0].plot(dataX, throttleRec, "-.", alpha=0.6, label="throttle rec.")
+                axs[1,0].plot(dataX, rollRec, ".", alpha=0.6, label="roll rec.")
+                axs[1,0].plot(dataX, pitchRec, ".", alpha=0.6, label="pitch rec.")
+                axs[1,0].plot(dataX, yawRec, ".", alpha=0.6, label="yaw rec.")
+                axs[1,0].plot(dataX, throttleRec, ".", alpha=0.6, label="throttle rec.")
                 axs[1,0].set_ylabel("time [us]")
                 axs[1,0].legend(loc='best')
 

@@ -16,34 +16,23 @@ float dataController[dataControllerSize];
 String dataTransfer[dataTransferSize];
 
 // serial
-HardwareSerial SUART(1); 
+HardwareSerial SUART(1);
 
+/**
+ * @brief Starts the Serial for UART com.
+ * 
+ */
 void beginUARTCOM(){
     SUART.begin(BAUD_RATE, SERIAL_8N1, 3, 1); // RX, TX
     delay(40);
 }
 
-void updatePID(){
-  // fill data structure before send
-  dataController[0] = PID_P_GAIN_ROLL;
-  dataController[1] = PID_I_GAIN_ROLL;
-  dataController[2] = PID_D_GAIN_ROLL;
-  dataController[3] = PID_P_GAIN_YAW;
-  dataController[4] = PID_I_GAIN_YAW;
-  dataController[5] = PID_D_GAIN_YAW;
-  dataController[6] = GYROSCOPE_ROLL_FILTER;
-  dataController[7] = GYROSCOPE_ROLL_CORR;
-  dataController[8] = GYROSCOPE_PITCH_CORR;
-  dataController[9] = PID_P_GAIN_ALTITUDE;
-  dataController[10] = PID_I_GAIN_ALTITUDE;
-  dataController[11] = PID_D_GAIN_ALTITUDE;
-}
 
-
+/**
+ * @brief Write data to DroneIno via UART com.
+ * 
+ */
 void writeDataTransfer(){
-
-  //Serial.printf("I'm sending...\n"); 
-  // updatePID();
 
   // print in csv format
   const char * stringToPrint = "";
@@ -70,15 +59,17 @@ void writeDataTransfer(){
   stringToPrint = (const char*)charToPrint;
   SUART.println(stringToPrint);
 
-  // int i=0;
-  // for(i = 0; i < dataControllerSize - 1; i++){
-  //   SUART.printf("%.6f,", dataController[i]);
-  // }
-  // SUART.printf("%.6f\n", dataController[dataControllerSize - 1]);
 }
 
 
+/**
+ * @brief Read the data coming from DroneIno via UART.
+ * 
+ * @bug Not stable communication: sometimes variables jump.
+ * 
+ */
 void readDataTransfer(){
+    
     if(SUART.available() > 0){
         // declair index array
         int indices[dataTransferSize - 1];
@@ -87,8 +78,7 @@ void readDataTransfer(){
         // read from serial
         //Serial.printf("I'm reading...\n");
         str = SUART.readStringUntil('\n');
-        // append the string to log file 
-        // appendFile(SD_MMC, "/debug/log.txt", (str+"\n").c_str());
+
 
         // find position of the last <
         int posStart = str.lastIndexOf('<') + 1;
@@ -98,6 +88,16 @@ void readDataTransfer(){
         indices[i] = str.indexOf(',', posStart);
         for( i = 1; i < dataTransferSize - 1; i++){
             indices[i] = str.indexOf(',', indices[i-1]+1);
+        }
+        
+        // if no index is found the string is invalid, thus do nothing
+        if (indices[dataTransferSize - 2] == -1){
+
+            // append the string to log file 
+            // appendFile(SD_MMC, "/debug/log.txt", ("Invalid incoming string: "+str+"\n").c_str());
+
+            // exit
+            return;
         }
 
         // substring the data and convert it to floats

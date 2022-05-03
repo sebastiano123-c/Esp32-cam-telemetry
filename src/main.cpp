@@ -62,10 +62,10 @@ float batteryPercentage         = 1.;
 float altitudeMeasure           = 1.;
 
 //    (RECEIVER TRIMS)
-float rollTrim                  = 1;
-float pitchTrim                 = 1;
-float yawTrim                   = 1;
-float throttleTrim              = 1;
+float rollTrim                  = 1.;
+float pitchTrim                 = 1.;
+float yawTrim                   = 1.;
+float throttleTrim              = 1.;
 
 //    (TEMPERATURE)
 float temperature               = 1;
@@ -75,9 +75,12 @@ float latitude                  = 0.; // @todo = NULL;
 float longitude                 = 0.; // @todo = NULL;
 const char* timeUTC             = "";
 
+uint8_t isConnectedSD = 0;
+
 
 void setup() {
 
+  // serial begin
   // Serial.begin(115200);
   beginUARTCOM();
 
@@ -141,6 +144,9 @@ void setup() {
   WiFi.softAP(ssid, password);
 
 
+  setupSD();
+
+
   // start camera web server
   startCameraServer();
 
@@ -151,9 +157,14 @@ void setup() {
     delay(10);
   }
 
+  delay(10);
 
-  // setup the SD card
-  setupSD();
+  // initialize PID and sent back it to DroneIno
+  /**
+   * @bug does not send back the PID to DroneIno
+   * 
+   */
+  readConfigFile(SD_MMC);
 
 }
 
@@ -161,6 +172,7 @@ void loop() {
 
   // read the incoming message from DroneIno
   readDataTransfer();
+
 
   // update flightData
   switch (isConnectedSD){                                  // check if SD in the previous loop result connected
@@ -174,12 +186,8 @@ void loop() {
        */
       break;
     
-    default:                                               // else, check if (in the current loop) the SD is connected
-      setupSD();                                           // setup the SD card
+    default:
       break;
-
   }
   
-
-  // delay(timeDelay);
 }

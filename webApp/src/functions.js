@@ -69,12 +69,11 @@ document.addEventListener("DOMContentLoaded", function(){
         
     }
 
-    function updateSDStatus(e){
-        var parE = e.parentElement;
-        var stat = e.innerHTML;
-        if(stat==1) e.innerHTML = "conn.";
-        else if(stat==0) e.innerHTML = "disc.";
-    }
+    // function updateSDStatus(e){
+    //     var stat = e.innerHTML;
+    //     if(stat==1) e.innerHTML = "conn.";
+    //     else if(stat==0) e.innerHTML = "disc.";
+    // }
 
     var ef=document.getElementById("alert-msg");
 
@@ -96,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
             data => {for (var key in data) {
                 document.getElementById(key).innerHTML=data[key];
             };
-            updateSDStatus(document.getElementById("SDStatus"));
+            // updateSDStatus(document.getElementById("SDStatus"));
             flightModeString(document.getElementById("flightMode"));
             batteryLevelColor(document.getElementById("battery"));
         });

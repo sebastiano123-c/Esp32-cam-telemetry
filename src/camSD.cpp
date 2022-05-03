@@ -12,39 +12,39 @@ const char* logFileName = "";
 
 static char todayLogChar[100];
 int numberOfDataFiles = 0;
-uint8_t isConnectedSD = 0;
 
 //List dir in SD card
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
-    // Serial.printf("Listing directory: %s\n", dirname);
+    //Serial.printf("Listing directory: %s\n", dirname);
 
     File root = fs.open(dirname);
     if(!root){
-        // Serial.println("Failed to open directory");
+        //Serial.println("Failed to open directory");
         return;
     }
     if(!root.isDirectory()){
-        // Serial.println("Not a directory");
+        //Serial.println("Not a directory");
         return;
     }
 
     File file = root.openNextFile();
     while(file){
         if(file.isDirectory()){
-            // Serial.print("  DIR : ");
-            // Serial.println(file.name());
+            //Serial.print("  DIR : ");
+            //Serial.println(file.name());
             if(levels){
                 listDir(fs, file.name(), levels -1);
             }
         } else {
-            // Serial.print("  FILE: ");
-            // Serial.print(file.name());
-            // Serial.print("  SIZE: ");
-            // Serial.println(file.size());
+            //Serial.print("  FILE: ");
+            //Serial.print(file.name());
+            //Serial.print("  SIZE: ");
+            //Serial.println(file.size());
         }
-        file = root.openNextFile();
         numberOfDataFiles += 1;
+        file = root.openNextFile();
     }
+    //Serial.printf("Im out");
 }
 
 //Create a dir in SD card
@@ -147,7 +147,6 @@ void readConfigFile(fs::FS &fs){
         // update DroneIno PID parameters
         writeDataTransfer();
         
-        // for(int ii = 0; ii < dataControllerSize; ii++) Serial.printf("%i: %.6f\n", ii, arr[ii]);
     }
 }
 
@@ -261,10 +260,6 @@ void setupSD() {
         // create log file for this session
         writeFile(SD_MMC, logFileName, flightDataHeaderCSV);
 
-
-        // initialize PID and sent back it to DroneIno
-        readConfigFile(SD_MMC);
-        
     }
 
 }
