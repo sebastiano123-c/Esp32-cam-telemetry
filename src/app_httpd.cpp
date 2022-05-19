@@ -682,12 +682,8 @@ static esp_err_t pid_handler(httpd_req_t *req){
     else if(!strcmp(variable, "altitudePInput")) PID_P_GAIN_ALTITUDE = val;
     else if(!strcmp(variable, "altitudeIInput")) PID_I_GAIN_ALTITUDE = val;
     else if(!strcmp(variable, "altitudeDInput")) PID_D_GAIN_ALTITUDE = val;
-
-    // send back to DroneIno the pid parameters
-    writeDataTransfer();
-
-    // updates the config.txt on the SD card
-    updateConfigFile(SD_MMC);
+    
+    isChangedPID = 1;
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);

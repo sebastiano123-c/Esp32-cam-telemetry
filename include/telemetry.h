@@ -50,6 +50,7 @@ extern float temperature;
 extern float latitude;
 extern float longitude;
 extern const char* timeUTC;
+extern uint8_t isChangedPID;
 
 //      (FILE)
 #define flightDataHeaderCSV "roll, pitch, flightMode, battery, altitude, rec. roll, rec. pitch, rec. yaw, rec. throttle, lat, lon, time (UTC)\n"

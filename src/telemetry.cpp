@@ -38,30 +38,31 @@ void beginUARTCOM(){
  */
 void writeDataTransfer(){
 
-  // print in csv format
-  const char * stringToPrint = "";
-  static char charToPrint[500];
-  char * ptr = charToPrint;
+    // print in csv format
+    const char * stringToPrint = "";
+    static char charToPrint[1000];
+    char * ptr = charToPrint;
 
-  ptr += sprintf(ptr, "<");
-  ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ROLL);
-  ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ROLL);
-  ptr += sprintf(ptr, "%.6f,", PID_D_GAIN_ROLL);
-  ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_YAW);
-  ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_YAW);
-  ptr += sprintf(ptr, "%.6f,", PID_D_GAIN_YAW);
-  ptr += sprintf(ptr, "%.6f,", GYROSCOPE_ROLL_FILTER);
-  ptr += sprintf(ptr, "%.6f,", GYROSCOPE_ROLL_CORR);
-  ptr += sprintf(ptr, "%.6f,", GYROSCOPE_PITCH_CORR);
-  ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ALTITUDE);
-  ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ALTITUDE);
-  ptr += sprintf(ptr, "%.6f", PID_D_GAIN_ALTITUDE);
-  ptr += sprintf(ptr, ">");
+    ptr += sprintf(ptr, "<");
+    ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ROLL);
+    ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ROLL);
+    ptr += sprintf(ptr, "%.6f,", PID_D_GAIN_ROLL);
+    ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_YAW);
+    ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_YAW);
+    ptr += sprintf(ptr, "%.6f,", PID_D_GAIN_YAW);
+    ptr += sprintf(ptr, "%.6f,", GYROSCOPE_ROLL_FILTER);
+    ptr += sprintf(ptr, "%.6f,", GYROSCOPE_ROLL_CORR);
+    ptr += sprintf(ptr, "%.6f,", GYROSCOPE_PITCH_CORR);
+    ptr += sprintf(ptr, "%.6f,", PID_P_GAIN_ALTITUDE);
+    ptr += sprintf(ptr, "%.6f,", PID_I_GAIN_ALTITUDE);
+    ptr += sprintf(ptr, "%.6f", PID_D_GAIN_ALTITUDE);
+    ptr += sprintf(ptr, ">\n");
 
-  ptr += 0;
+    ptr += 0;
 
-  stringToPrint = (const char*)charToPrint;
-  SUART.println(stringToPrint);
+    stringToPrint = (const char*)charToPrint;
+
+    SUART.print(stringToPrint);
 
 }
 
@@ -78,6 +79,7 @@ void recvWithStartEndMarkers() {
     char rc;
 
     while (SUART.available() > 0 && newData == false) {
+       
         rc = SUART.read();
 
         if (recvInProgress == true) {
@@ -104,7 +106,7 @@ void recvWithStartEndMarkers() {
 
 
 /**
- * @brief COnverts the message < a, b, ... > into variables.
+ * @brief Converts the message < a, b, ... > into variables.
  * 
  */
 void parseData() {      // split the data into its parts
