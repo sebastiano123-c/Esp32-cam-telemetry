@@ -29,7 +29,7 @@
 
  * 
  */
-
+#include <Arduino.h>
 #include <HardwareSerial.h>
 
 HardwareSerial SUART(1); 
@@ -37,13 +37,11 @@ HardwareSerial SUART(1);
 int delayTime = 200; // ms
 int sendTelemetryLoopN = 0;
 
-// telemetry
-const int dataTransferSize = 5;
-float dataTransfer[dataTransferSize];
-
-// controller
-const int dataControllerSize = 12;
-float dataController[dataControllerSize];
+// UART com
+const int numChars = 1000;
+char receivedChars[numChars];
+char tempChars[numChars];                           // temporary array for use when parsing
+boolean newData = false;
 
 // PID:
 //              (ROLL)
@@ -138,7 +136,7 @@ void writeDataTransfer(){
   ptr += sprintf(ptr, "%i,", controllerThrottleInput);
   ptr += sprintf(ptr, "%f,", latitudeGPS);
   ptr += sprintf(ptr, "%f,", longitudeGPS);
-  ptr += sprintf(ptr, "%s", timeUTC);
+  ptr += sprintf(ptr, "%s>", timeUTC);
   ptr += 0;
 
   stringToPrint = (const char*)charSource;
@@ -152,61 +150,75 @@ void writeDataTransfer(){
 
 
 /**
- * @brief reads PID parameters set on the client
+ * @brief Decode the incoming message in the form < a, b, ... >.
  * 
  */
-void readDataTransfer(){
+void recvWithStartEndMarkers() {
+    static boolean recvInProgress = false;
+    static int ndx = 0;
+    char startMarker = '<';
+    char endMarker = '>';
+    char rc;
 
-  if(SUART.available() > 0){
+    while (SUART.available() > 0 && newData == false) {
+        rc = SUART.read();
 
-    // declair index array
-    int indices[dataControllerSize];
-    String str = "";
-    
-    // read from serial
-    str = SUART.readStringUntil('\n');
+        if (recvInProgress == true) {
+            if (rc != endMarker) {
+                receivedChars[ndx] = rc;
+                ndx++;
+                if (ndx >= numChars) {
+                    ndx = numChars - 1;
+                }
+            }
+            else {
+                receivedChars[ndx] = '\0'; // terminate the string
+                recvInProgress = false;
+                ndx = 0;
+                newData = true;
+            }
+        }
 
-    // find position of the last <
-    int posStart = str.lastIndexOf('<') + 1;
-    
-    // find positions of ","
-    int i = 0;
-    indices[i] = str.indexOf(',', posStart);
-    for( i = 1; i < dataControllerSize - 1; i++){
-        indices[i] = str.indexOf(',', indices[i-1]+1);
+        else if (rc == startMarker) {
+            recvInProgress = true;
+        }
     }
-    indices[dataControllerSize - 1] = str.indexOf('>');                                 // find end position >
+}
 
-    // substring the data
-    i = 0;
-    dataController[i] = str.substring(posStart, indices[i]).toFloat();
-    for( i = 1; i < dataControllerSize; i++){
-        dataController[i] = str.substring(indices[i-1] + 1, indices[i]).toFloat();
-    }
+
+/**
+ * @brief COnverts the message < a, b, ... > into variables.
+ * 
+ */
+void parseData() {      // split the data into its parts
+
+    char * strtokIndx; // this is used by strtok() as an index
 
     // fill data structure after receiving
-    if(
-      dataController[0] < 1e-11 && dataController[1] < 1e-11 && dataController[2] < 1e-11
-      && dataController[3] < 1e-11 && dataController[4] < 1e-11 && dataController[5] < 1e-11
-      && dataController[6] < 1e-11 && dataController[7] < 1e-11 && dataController[8] < 1e-11
-      && dataController[9] < 1e-11 && dataController[10] < 1e-11 && dataController[11] < 1e-11
-    );
-    else {
-      PID_P_GAIN_ROLL = dataController[0];
-      PID_I_GAIN_ROLL = dataController[1];
-      PID_D_GAIN_ROLL = dataController[2];
-      PID_P_GAIN_PITCH = dataController[3];
-      PID_I_GAIN_PITCH = dataController[4];
-      PID_D_GAIN_PITCH = dataController[5];
-      PID_P_GAIN_YAW = dataController[6];
-      PID_I_GAIN_YAW = dataController[7];
-      PID_D_GAIN_YAW = dataController[8];
-    }
+    strtokIndx = strtok(tempChars,","); PID_P_GAIN_ROLL     = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_I_GAIN_ROLL     = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_D_GAIN_ROLL     = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_P_GAIN_PITCH    = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_I_GAIN_PITCH    = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_D_GAIN_PITCH    = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_P_GAIN_YAW      = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_I_GAIN_YAW      = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     PID_D_GAIN_YAW      = atof(strtokIndx);
 
-    // print in csv format   
-    for(int i = 0; i < dataControllerSize; i++){
-      Serial.printf("%.6f\n", dataController[i]);
-    }
+}
 
-  }
+
+/**
+ * @brief Read the incoming data from the DroneIno as telemetry.
+ * 
+ */
+void readDataTransfer() {
+    recvWithStartEndMarkers();
+    if (newData == true) {
+        strcpy(tempChars, receivedChars);
+            // this temporary copy is necessary to protect the original data
+            //   because strtok() used in parseData() replaces the commas with \0
+        parseData();
+        newData = false;
+    }
 }

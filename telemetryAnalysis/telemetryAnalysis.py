@@ -82,15 +82,18 @@ while(1):
                     else:
 
                         if(GPS_data == False):
-                            index.append(tmp)
-                            roll.append(float(row[0]))
-                            pitch.append(float(row[1]))
-                            battery.append(float(row[3]))
-                            altitude.append(float(row[4]))
-                            rollRec.append(float(row[5]))
-                            pitchRec.append(float(row[6]))
-                            yawRec.append(float(row[7]))
-                            throttleRec.append(float(row[8]))
+                            if(len(row) == 12):
+                                index.append(tmp)
+                                roll.append(float(row[0]))
+                                pitch.append(float(row[1]))
+                                battery.append(float(row[3]))
+                                altitude.append(float(row[4]))
+                                rollRec.append(float(row[5]))
+                                pitchRec.append(float(row[6]))
+                                yawRec.append(float(row[7]))
+                                throttleRec.append(float(row[8]))
+                            else:
+                                print("line %i not valid, has %i \n"%(tmp,len(row)))
                         else:
                             lat, lon = float(row[9]), float(row[10])
 

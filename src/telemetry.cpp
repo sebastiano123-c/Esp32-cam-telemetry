@@ -11,9 +11,13 @@
 
 #include "telemetry.h"
 
-float dataController[dataControllerSize];
 
-String dataTransfer[dataTransferSize];
+// UART com
+const int numChars = 1000;
+char receivedChars[numChars];
+char tempChars[numChars];                           // temporary array for use when parsing
+boolean newData = false;
+
 
 // serial
 HardwareSerial SUART(1);
@@ -63,68 +67,79 @@ void writeDataTransfer(){
 
 
 /**
- * @brief Read the data coming from DroneIno via UART.
- * 
- * @bug Not stable communication: sometimes variables jump.
+ * @brief Decode the incoming message in the form < a, b, ... >.
  * 
  */
-void readDataTransfer(){
-    
-    if(SUART.available() > 0){
-        // declair index array
-        int indices[dataTransferSize - 1];
-        String str = "";
-        
-        // read from serial
-        //Serial.printf("I'm reading...\n");
-        str = SUART.readStringUntil('\n');
+void recvWithStartEndMarkers() {
+    static boolean recvInProgress = false;
+    static int ndx = 0;
+    char startMarker = '<';
+    char endMarker = '>';
+    char rc;
 
+    while (SUART.available() > 0 && newData == false) {
+        rc = SUART.read();
 
-        // find position of the last <
-        int posStart = str.lastIndexOf('<') + 1;
-        
-        // find positions of ","
-        int i = 0;
-        indices[i] = str.indexOf(',', posStart);
-        for( i = 1; i < dataTransferSize - 1; i++){
-            indices[i] = str.indexOf(',', indices[i-1]+1);
-        }
-        
-        // if no index is found the string is invalid, thus do nothing
-        if (indices[dataTransferSize - 2] == -1){
-
-            // append the string to log file 
-            // appendFile(SD_MMC, "/debug/log.txt", ("Invalid incoming string: "+str+"\n").c_str());
-
-            // exit
-            return;
+        if (recvInProgress == true) {
+            if (rc != endMarker) {
+                receivedChars[ndx] = rc;
+                ndx++;
+                if (ndx >= numChars) {
+                    ndx = numChars - 1;
+                }
+            }
+            else {
+                receivedChars[ndx] = '\0'; // terminate the string
+                recvInProgress = false;
+                ndx = 0;
+                newData = true;
+            }
         }
 
-        // substring the data and convert it to floats
-        i = 0;
-        dataTransfer[i] = str.substring(posStart, indices[i]);
-        for( i = 1; i < dataTransferSize - 1; i++){
-            dataTransfer[i] = str.substring(indices[i-1] + 1, indices[i]);
+        else if (rc == startMarker) {
+            recvInProgress = true;
         }
-        dataTransfer[dataTransferSize - 1] = str.substring(indices[dataTransferSize - 2] + 1 );
-        
-        // fill data structure after receiving
-        rollAngle         = dataTransfer[0].toFloat();
-        pitchAngle        = dataTransfer[1].toFloat();
-        flightMode        = dataTransfer[2].toInt();
-        batteryPercentage = dataTransfer[3].toFloat();
-        altitudeMeasure   = dataTransfer[4].toFloat();
+    }
+}
 
-        rollTrim          = dataTransfer[5].toFloat();
-        pitchTrim         = dataTransfer[6].toFloat();
-        yawTrim           = dataTransfer[7].toFloat();
-        throttleTrim      = dataTransfer[8].toFloat();
 
-        temperature       = dataTransfer[9].toFloat();
+/**
+ * @brief COnverts the message < a, b, ... > into variables.
+ * 
+ */
+void parseData() {      // split the data into its parts
 
-        latitude          = dataTransfer[10].toFloat();
-        longitude         = dataTransfer[11].toFloat();
-        timeUTC           = dataTransfer[12].c_str();
-        
+    char * strtokIndx; // this is used by strtok() as an index
+
+    // fill data structure after receiving
+    strtokIndx = strtok(tempChars,","); rollAngle         = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     pitchAngle        = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     flightMode        = atoi(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     batteryPercentage = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     altitudeMeasure   = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     rollTrim          = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     pitchTrim         = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     yawTrim           = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     throttleTrim      = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     temperature       = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     latitude          = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     longitude         = atof(strtokIndx);
+    strtokIndx = strtok(NULL, ",");     timeUTC           = strtokIndx;
+
+}
+
+
+/**
+ * @brief Read the incoming data from the DroneIno as telemetry.
+ * 
+ */
+void readDataTransfer() {
+    recvWithStartEndMarkers();
+    if (newData == true) {
+        strcpy(tempChars, receivedChars);
+            // this temporary copy is necessary to protect the original data
+            //   because strtok() used in parseData() replaces the commas with \0
+        parseData();
+        newData = false;
     }
 }

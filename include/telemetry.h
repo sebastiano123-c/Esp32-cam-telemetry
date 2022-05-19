@@ -56,11 +56,6 @@ extern const char* timeUTC;
 extern const char* logFileName;
 
 
-//           (UART)                                      
-const int dataTransferSize = 13;                    // number of elements of the incoming string (telemetry)
-const int dataControllerSize = 12;                  // number of elements of the output string   (PID)
-
-
 //          (TELEMETRY FUNCTIONS)
 extern void writeDataTransfer();
 extern void readDataTransfer();
