@@ -232,7 +232,7 @@ void setupSD() {
   // Serial.begin(115200);
   //  Serial.println("SDcard Testing....");
 
-  //  if( !SD_MMC.begin() ) { // fast 4bit mode
+  // if( !SD_MMC.begin() ) { // fast 4bit mode
   if (!SD_MMC.begin("/sdcard", true)) {  // slow 1bit mode
     isConnectedSD = 0;
   } else {

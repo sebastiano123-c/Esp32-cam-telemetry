@@ -15,9 +15,6 @@
 
 // Camera libraries
 #include "esp_camera.h"
-#include "soc/soc.h"
-#include "soc/rtc_cntl_reg.h"
-#include "driver/rtc_io.h"
 
 #define CAMERA_MODEL_AI_THINKER  // Has PSRAM
 
@@ -86,12 +83,11 @@ uint8_t isChangedPID = 0;
 
 void setup() {
 
-  // Disable brownout detector
-  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
-
   // serial begin
   // Serial.begin(115200);
   beginUARTCOM();
+
+  pinMode(2, INPUT_PULLUP);
 
   // flash
   // ledcSetup(0, 500, 8);
@@ -196,7 +192,6 @@ void loop() {
     break;
   
   default:
-
     break;
   }
   
