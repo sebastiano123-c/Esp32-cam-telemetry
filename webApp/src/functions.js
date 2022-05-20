@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     //      (TELEMETRY)
-    setInterval(ee,10);function ee(){
+    setInterval(ee,150);function ee(){
         var ee = `${document.location.origin}/telemetry`;
         fetch(ee).then(
             res=>{return res.json()}

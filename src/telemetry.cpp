@@ -114,18 +114,18 @@ void parseData() {      // split the data into its parts
     char * strtokIndx; // this is used by strtok() as an index
 
     // fill data structure after receiving
-    strtokIndx = strtok(tempChars,","); rollAngle         = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     pitchAngle        = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     flightMode        = atoi(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     batteryPercentage = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     altitudeMeasure   = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     rollTrim          = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     pitchTrim         = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     yawTrim           = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     throttleTrim      = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     temperature       = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     latitude          = atof(strtokIndx);
-    strtokIndx = strtok(NULL, ",");     longitude         = atof(strtokIndx);
+    strtokIndx = strtok(tempChars,","); rollAngle         = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     pitchAngle        = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     flightMode        = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     batteryPercentage = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     altitudeMeasure   = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     rollTrim          = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     pitchTrim         = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     yawTrim           = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     throttleTrim      = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     temperature       = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     latitude          = strtokIndx;
+    strtokIndx = strtok(NULL, ",");     longitude         = strtokIndx;
     strtokIndx = strtok(NULL, ",");     timeUTC           = strtokIndx;
 
 }
@@ -142,6 +142,10 @@ void readDataTransfer() {
             // this temporary copy is necessary to protect the original data
             //   because strtok() used in parseData() replaces the commas with \0
         parseData();
+
+        // update the data file log
+        if (isConnectedSD) appendFile(SD_MMC, logFileName, receivedChars+'\n');
+
         newData = false;
     }
 }

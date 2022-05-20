@@ -703,13 +703,13 @@ static esp_err_t telemetry_handler(httpd_req_t *req){
     *ptr++ = '{';
 
     // telemetry
-    ptr+=sprintf(ptr, "\"pitchAngle\":%.4f,", pitchAngle);
-    ptr+=sprintf(ptr, "\"rollAngle\":%.4f,", rollAngle);
-    ptr+=sprintf(ptr, "\"flightMode\":%i,", flightMode);
-    ptr+=sprintf(ptr, "\"battery\":%.4f,", batteryPercentage);
-    ptr+=sprintf(ptr, "\"altitude\":%.4f,", altitudeMeasure);
-    ptr+=sprintf(ptr, "\"temperature\":%.1f,", temperature);
-    ptr+=sprintf(ptr, "\"gps\":\"(%.1f,%.1f)\",", latitude, longitude);
+    ptr+=sprintf(ptr, "\"pitchAngle\":%s,", pitchAngle);
+    ptr+=sprintf(ptr, "\"rollAngle\":%s,", rollAngle);
+    ptr+=sprintf(ptr, "\"flightMode\":%s,", flightMode);
+    ptr+=sprintf(ptr, "\"battery\":%s,", batteryPercentage);
+    ptr+=sprintf(ptr, "\"altitude\":%s,", altitudeMeasure);
+    ptr+=sprintf(ptr, "\"temperature\":%s,", temperature);
+    ptr+=sprintf(ptr, "\"gps\":\"(%.2s,%.2s)\",", latitude, longitude);
     ptr+=sprintf(ptr, "\"SDStatus\":%i", isConnectedSD);//comma!!!
 
     *ptr++ = '}';

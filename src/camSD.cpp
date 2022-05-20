@@ -85,10 +85,10 @@ void appendFile(fs::FS &fs, const char *path, const char *message) {
 
   if (!file) {
     // Serial.println("Failed to open file for writing");
+    file.close();
     return;
   }
 
-  // fwrite(fb->buf, 1, fb->len, file);
   if (file.print(message)) {
     // Serial.println("File written");
   } else {
@@ -120,11 +120,11 @@ void readConfigFile(fs::FS &fs) {
 
     //              (PITCH)
     PID_P_GAIN_PITCH =
-        file.parseFloat();  // Gain setting for the pitch P-controller
+        PID_P_GAIN_ROLL;  // Gain setting for the pitch P-controller
     PID_I_GAIN_PITCH =
-        file.parseFloat();  // Gain setting for the pitch I-controller
+        PID_I_GAIN_ROLL;  // Gain setting for the pitch I-controller
     PID_D_GAIN_PITCH =
-        file.parseFloat();  // Gain setting for the pitch D-controller
+        PID_D_GAIN_ROLL;  // Gain setting for the pitch D-controller
 
     //              (YAW)
     PID_P_GAIN_YAW =
@@ -153,9 +153,22 @@ void readConfigFile(fs::FS &fs) {
     PID_D_GAIN_ALTITUDE =
         file.parseFloat();  // Gain setting for the pitch D-controller. (0.0)
 
+    // Serial.print(PID_P_GAIN_ROLL);
+    // Serial.print(PID_I_GAIN_ROLL);
+    // Serial.print(PID_D_GAIN_ROLL);
+    // Serial.print(PID_P_GAIN_YAW);
+    // Serial.print(PID_I_GAIN_YAW);
+    // Serial.print(PID_D_GAIN_YAW);
+    // Serial.print(GYROSCOPE_ROLL_FILTER);
+    // Serial.print(GYROSCOPE_ROLL_CORR);
+    // Serial.print(GYROSCOPE_PITCH_CORR);
+    // Serial.print(PID_P_GAIN_ALTITUDE);
+    // Serial.print(PID_I_GAIN_ALTITUDE);
+    // Serial.print(PID_D_GAIN_ALTITUDE);
+    // Serial.println();
+
     // update DroneIno PID parameters
     isChangedPID = 1;
-    
   }
 }
 
@@ -195,27 +208,27 @@ void updateConfigFile(fs::FS &fs) {
 void writeDataLogFlight(fs::FS &fs) {
   File file = SD_MMC.open(logFileName, FILE_APPEND);
   if (file) {
-    if (rollTrim - 1 > 1e-10 && pitchTrim - 1 > 1e-10 && yawTrim - 1 > 1e-10 &&
-        throttleTrim - 1 > 1e-10) {
+    if (rollTrim != NULL && pitchTrim != NULL && yawTrim != NULL &&
+        throttleTrim != NULL) {
       static char stringToPrint[1024];
 
       char *ptr = stringToPrint;
       // *ptr++ = ' ';
 
       // telemetry
-      ptr += sprintf(ptr, "%.6f,", rollAngle);
-      ptr += sprintf(ptr, "%.6f,", pitchAngle);
-      ptr += sprintf(ptr, "%i,", (int)flightMode);
-      ptr += sprintf(ptr, "%.6f,", batteryPercentage);
-      ptr += sprintf(ptr, "%.6f,", altitudeMeasure);
+      ptr += sprintf(ptr, "%s,", rollAngle);
+      ptr += sprintf(ptr, "%s,", pitchAngle);
+      ptr += sprintf(ptr, "%s,", flightMode);
+      ptr += sprintf(ptr, "%s,", batteryPercentage);
+      ptr += sprintf(ptr, "%s,", altitudeMeasure);
 
-      ptr += sprintf(ptr, "%i,", (int)rollTrim);
-      ptr += sprintf(ptr, "%i,", (int)pitchTrim);
-      ptr += sprintf(ptr, "%i,", (int)yawTrim);
-      ptr += sprintf(ptr, "%i,", (int)throttleTrim);
+      ptr += sprintf(ptr, "%s,", rollTrim);
+      ptr += sprintf(ptr, "%s,", pitchTrim);
+      ptr += sprintf(ptr, "%s,", yawTrim);
+      ptr += sprintf(ptr, "%s,", throttleTrim);
 
-      ptr += sprintf(ptr, "%.7f,", latitude);
-      ptr += sprintf(ptr, "%.7f,", longitude);
+      ptr += sprintf(ptr, "%s,", latitude);
+      ptr += sprintf(ptr, "%s,", longitude);
       ptr += sprintf(ptr, "%s", timeUTC);
 
       *ptr++ = '\n';

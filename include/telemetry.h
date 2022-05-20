@@ -37,18 +37,18 @@ extern float PID_D_GAIN_ALTITUDE;                 //Gain setting for the pitch D
 
 
 //           (TELEMETRY)                                      
-extern float rollAngle;
-extern float pitchAngle;
-extern int flightMode;
-extern float batteryPercentage;
-extern float altitudeMeasure;
-extern float rollTrim;
-extern float pitchTrim;
-extern float yawTrim;
-extern float throttleTrim;
-extern float temperature;
-extern float latitude;
-extern float longitude;
+extern const char* rollAngle;
+extern const char* pitchAngle;
+extern const char* flightMode;
+extern const char* batteryPercentage;
+extern const char* altitudeMeasure;
+extern const char* rollTrim;
+extern const char* pitchTrim;
+extern const char* yawTrim;
+extern const char* throttleTrim;
+extern const char* temperature;
+extern const char* latitude;
+extern const char* longitude;
 extern const char* timeUTC;
 extern uint8_t isChangedPID;
 
